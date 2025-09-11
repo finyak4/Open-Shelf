@@ -1,0 +1,195 @@
+main{
+    background-color: white;
+}
+
+#book-page-div{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#book-page-div > *{
+  margin-left: 5%;
+}
+
+
+.edit-book-button-div{
+  margin-top: 20px;
+}
+
+.book-info-description{
+  margin-bottom: 35px;
+}
+
+.login-to-reserve{
+  font-size: clamp(0.9rem, 2vw, 1.2rem); 
+}
+
+.login-to-reserve a{
+  text-decoration: underline;
+}
+
+
+
+.edit-book-form{
+  margin-top: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(75, 75, 75, 0.5);
+  backdrop-filter: blur(3px); 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; 
+}
+
+#close, #save, #reserve, .edit-book-button, #borrow_btn{
+  padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#reserve, #borrow_btn{
+  margin-top: 5px;
+}
+
+.edit-book-item input, .edit-book-item select{
+    width: 100%;
+    padding: 12px 10px 12px 10px;
+    font-size: 16px;
+    border: 1px solid #343333;
+    background: transparent;
+    box-sizing: border-box;
+    color: rgb(0, 0, 0);
+    z-index: 2;
+}
+
+.edit-book-item select {
+  width: 229px;
+}
+
+.edit-book-item{
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.edit-book-item label{
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  color: black;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  padding: 0 4px;
+  z-index: 1;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.edit-book-item select:focus{
+    background-color: white;
+}
+
+
+.edit-book-item input:focus + label,
+.edit-book-item input:not(:placeholder-shown) + label,
+.edit-book-item select:focus + label,
+.edit-book-item select:not(:placeholder-shown) + label{
+    top: -10px;
+    left: 8px;
+    font-size: 16px;
+    color: black;
+    background: white;
+    z-index: 3;
+}
+
+
+
+.edit-book-button:hover{
+      cursor: pointer;
+    }
+
+.book-div{
+  display: flex;
+  flex-direction: row;
+  margin-top: 5%;
+}
+
+.book-info-title{
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+  font-size: clamp(1.2rem, 2vw, 1.8rem); 
+}
+
+.book-info-description{
+  margin-top: 25px;
+  font-size: clamp(0.9rem, 2vw, 1.2rem); 
+  font-family: "Amino", sans-serif;
+}
+
+.book-info-year, .book-info-author, .book-info-id{
+  font-size: clamp(1.0rem, 2vw, 1.2rem);
+}
+
+.book-info-id{
+    text-decoration: underline; 
+}
+
+#book-info{
+    margin-left: 25px;
+}
+
+.reservation_id, .user-info{
+  font-family: "Roboto Mono";
+  font-size: clamp(1.0rem, 2vw, 1.4rem); 
+}
+
+#reservation-timer{
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+  font-size: clamp(1.2rem, 2vw, 1.8rem); 
+}
+
+@media (max-width: 560px){
+  img{
+    width: 150px !important;
+    height: 200px !important;
+}
+#close, #save, #reserve, .edit-book-button{
+  padding: 5px;}
+}
+
+@media (min-width: 1668px){
+.book-info-year, .book-info-author, .book-info-id{
+  font-size: clamp(1.0rem, 2vw, 1.4rem);
+}}
+  
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+}
+
+.dropdown-btn:hover{
+  cursor: pointer;
+}
+
+.drop-content{
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(0.9rem, 2vw, 1.2rem); 
+}

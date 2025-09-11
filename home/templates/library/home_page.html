@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div id="search-div">
+        <form method="get" action="{% url 'library' %}">
+            <input type="text" id="search" name="query">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="home-books-div">
+        <h1 id="popular-books">Popular Books</h1>
+        <div class="home-books">
+            {% for book in books %}
+                <div class="book-item">
+                    <a href="{% url 'book_page' book.id %}">
+                        <img src="{{ book.cover_image }}"
+                             alt="cover image"
+                             width="100px"
+                             height="150px">
+                        <p id="title">{{ book.title }}</p>
+                    </a>
+                    <p id="home-author">{{ book.author }}</p>
+                    {% if book.availability < 5 %}<p id="availability">{{ book.availability }} available</p>{% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}

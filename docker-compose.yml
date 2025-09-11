@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    networks:
+      - app-network
+    env_file:
+      - .env  
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 30s   
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  django:
+    build:
+      context: .
+    container_name: django-app
+    entrypoint: /docker-entrypoint.sh
+    command: gunicorn library_ms.wsgi:application --bind=0.0.0.0:8000 --workers=3 --timeout=120
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST
+      - POSTGRES_PORT   
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

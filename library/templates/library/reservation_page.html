@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <link rel="stylesheet" href="{% static 'library/book_page.css' %}">
+{% endblock head %}
+{% block body %}
+    <div id="book-page-div">
+        <div class="book-div">
+            <img src="{{ reservation.book.cover_image }}"
+                 alt="cover image"
+                 width="200px"
+                 height="300px">
+            <div id="book-info" data-id="{{ reservation.id }}">
+                <p class="book-info-title">{{ reservation.book.title }}</p>
+                <p class="book-info-author">{{ reservation.book.author }}</p>
+                <p class="book-info-year">{{ reservation.book.publication_year }}</p>
+                {% if reservation_time %}
+                    <div id="reservation-timer" data-created="{{ reservation_time }}"></div>
+                    <p class="reservation_id">Reservation ID: {{ reservation.id }}</p>
+                {% endif %}
+                {% if user.is_staff %}
+                    <p class="user-info">User: {{ reservation.user.username }}</p>
+                    <p class="user-info">ID:{{ reservation.user.id }}</p>
+                {% else %}
+                {% endif %}
+            </div>
+        </div>
+        {% if user.is_staff %}
+            <form method="post" action="{% url 'borrow' %}">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ reservation.user.id }}">
+                <p class="dropdown-btn">Select Reservation ▼</p>
+                <div class="dropdown-content">
+                    {% for reservation in reservations %}
+                        <label>
+                            <input type="checkbox" name="reservation_id" value="{{ reservation.id }}">
+                            {{ reservation.id }} {{ reservation.book.title }}
+                        </label>
+                    {% endfor %}
+                </div>
+                <button type="submit">Borrow</button>
+            </form>
+        {% endif %}
+    </div>
+{% endblock body %}
+{% block script %}
+    <script src="{% static 'library/reservation_page.js' %}"></script>
+{% endblock script %}

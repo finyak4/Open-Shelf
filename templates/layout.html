@@ -1,0 +1,59 @@
+{% load static %}
+{% load reservations %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}
+                Library
+            {% endblock title %}
+        </title>
+        <link href="{% static 'styles.css' %}" rel="stylesheet">
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        <header>
+            <nav class="nav-bar">
+                <a href="{% url 'home_page' %}">
+                    <p class="nav-item">Home</p>
+                </a>
+                <a href="{% url 'library' %}">
+                    <p class="nav-item">Library</p>
+                </a>
+                {% if user|has_reserved or user.is_staff %}
+                    <a href="{% url 'borrowings' %}">
+                        <p class="nav-item">Borrowings</p>
+                    </a>
+                {% endif %}
+                {% if user.is_staff %}{% endif %}
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">
+                        <p class="nav-item">Logout</p>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}">
+                        <p class="nav-item">Login</p>
+                    </a>
+                    <a href="{% url 'register' %}">
+                        <p class="nav-item">Register</p>
+                    </a>
+                {% endif %}
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle navigation menu">☰</button>
+        </header>
+        <main>
+            {% block body %}
+            {% endblock body %}
+        </main>
+        <footer>
+            <p class="footer-item">
+                made by <span>finyak4</span>
+            </p>
+        </footer>
+        <script src="{% static 'layout.js' %}"></script>
+        {% block script %}
+        {% endblock script %}
+    </body>
+</html>

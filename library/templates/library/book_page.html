@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <link rel="stylesheet" href="{% static 'library/book_page.css' %}">
+{% endblock head %}
+{% block body %}
+    <div id="book-page-div">
+        <div class="book-div">
+            <img src="{{ book.cover_image }}"
+                 alt="cover image"
+                 width="200px"
+                 height="300px">
+            <div id="book-info" data-id="{{ book.id }}">
+                <p class="book-info-title">{{ book.title }}</p>
+                <p class="book-info-author">{{ book.author }}</p>
+                <p class="book-info-year">{{ book.publication_year }}</p>
+                <p class="book-info-genre">Genre: {{ book.genre }}</p>
+                <p class="book-info-id">ID to pick up at the reception desk: {{ book.id }}</p>
+                {% if book.availability < 5 %}
+                    <p id="availability">{{ book.availability }} available</p>
+                    {% if not user.is_staff %}
+                        {% if not has_reserved and user.is_authenticated %}<button id="reserve">Reserve</button>{% endif %}
+                        {% if not user.is_authenticated %}
+                            <p class="login-to-reserve">
+                                <a href="{% url 'login' %}">Login</a> to reserve
+                            </p>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if reservation_time %}
+                    <div id="reservation-timer" data-created="{{ reservation_time }}"></div>
+                    <p>Reservation ID: {{ reservation.id }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% if user.is_staff %}
+            <div class="edit-book-button-div">
+                <button class="edit-book-button"
+                        data-title="{{ book.title }}"
+                        data-author="{{ book.author }}"
+                        data-year="{{ book.publication_year }}"
+                        data-url="{{ book.cover_image }}"
+                        data-genre="{{ book.genre }}"
+                        data-description="{{ book.description }}"
+                        data-availability="{{ book.availability }}">Edit</button>
+            </div>
+        {% endif %}
+        <p class="book-info-description">{{ book.description }}</p>
+    </div>
+{% endblock body %}
+{% block script %}
+    <script src="{% static 'library/book_page.js' %}"></script>
+{% endblock script %}

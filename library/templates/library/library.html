@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'library/library.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+          rel="stylesheet">
+{% endblock head %}
+{% block body %}
+    <div class="library-main">
+        <div class="filter-part">
+            <h1>Filters</h1>
+            <form method="get" action="{% url 'library' %}" id="filter-form">
+                <div class="genre">
+                    <label for="genre" class="first-label">Choose a genre:</label>
+                    <select id="genre" name="genre">
+                        <option value="" disabled selected>Select a genre</option>
+                        {% for genre in genres %}<option value="{{ genre.name }}">{{ genre.name }}</option>{% endfor %}
+                    </select>
+                </div>
+                <div class="availability">
+                    <label class="first-label">Availability</label>
+                    <label>
+                        <input type="radio" name="available" value="all">
+                        All
+                    </label>
+                    <label>
+                        <input type="radio" name="available" value="true">
+                        Available
+                    </label>
+                    <label>
+                        <input type="radio" name="available" value="false">
+                        Unavailable
+                    </label>
+                </div>
+                <div class="author">
+                    <label class="first-label">Author</label>
+                    <p class="dropdown-btn">Select Author ▼</p>
+                    <div class="dropdown-content">
+                        {% for author in authors %}
+                            <label>
+                                <input type="checkbox" name="author" value="{{ author }}">
+                                {{ author }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="vertical-line"></div>
+        <div class="library-part">
+            <div class="library-top-bar">
+                <div class="carousel-container">
+                    <button id="prev-btn">
+                        <
+                    </button>
+                    <div class="carousel-div"></div>
+                    <button id="next-btn">></button>
+                </div>
+                {% if user.is_staff %}
+                    <div class="new-book-button-div">
+                        <button class="new-book-button">New Book</button>
+                    </div>
+                {% endif %}
+            </div>
+            {% if user.is_staff %}
+                <form method="post" class="add-book-form hidden" autocomplete="off">
+                    {% csrf_token %}
+                    <h1 id="add-book-text">Add New Book To Library</h1>
+                    {{ form.non_field_errors }}
+                    <div class="add-book-item">
+                        {{ form.title }}
+                        {{ form.title.label_tag }}
+                        {{ form.title.errors }}
+                    </div>
+                    <div class="add-book-item">
+                        {{ form.description }}
+                        {{ form.description.label_tag }}
+                        {{ form.description.errors }}
+                    </div>
+                    <div class="add-book-item">
+                        {{ form.author }}
+                        {{ form.author.label_tag }}
+                        {{ form.author.errors }}
+                    </div>
+                    <div class="add-book-item">
+                        {{ form.availability }}
+                        {{ form.availability.label_tag }}
+                        {{ form.availability.errors }}
+                    </div>
+                    <div class="add-book-item">
+                        {{ form.publication_year }}
+                        {{ form.publication_year.label_tag }}
+                        {{ form.publication_year.errors }}
+                    </div>
+                    <div class="add-book-item">
+                        {{ form.cover_image }}
+                        {{ form.cover_image.label_tag }}
+                        {{ form.cover_image.errors }}
+                    </div>
+                    <div class="add-book-item">
+                        {{ form.genre }}
+                        {{ form.genre.errors }}
+                    </div>
+                    <button type="submit">Add Book</button>
+                </form>
+            {% endif %}
+            <div class="books">
+                {% for book in books %}
+                    <div class="book-item">
+                        <a href="{% url 'book_page' book.id %}">
+                            <img src="{{ book.cover_image }}"
+                                 alt="cover image"
+                                 width="100px"
+                                 height="150px">
+                            <p id="title">{{ book.title }}</p>
+                        </a>
+                        <p id="author">{{ book.author }}</p>
+                        {% if book.availability < 5 %}<p id="availability">{{ book.availability }} available</p>{% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if books.has_previous %}<a class="page_btn" href="?page={{ books.previous_page_number }}"><</a>{% endif %}
+                    <span class="current">{{ books.number }} of {{ books.paginator.num_pages }}.</span>
+                    {% if books.has_next %}<a class="page_btn" href="?page={{ books.next_page_number }}">></a>{% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{% static 'js/my-select2-init.js' %}"></script>
+    <script src="{% static 'library/library.js' %}"></script>
+{% endblock script %}

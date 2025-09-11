@@ -1,0 +1,414 @@
+#add-book-text{
+    color: black;
+    font-size: clamp(1.0rem, 2vw, 1.5rem); 
+    transition: transform 0.2s;
+}
+
+.library-part .add-book-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.library-part .add-book-item input, .library-part .add-book-item select{
+    width: 100%;
+    padding: 12px 10px 12px 10px;
+    font-size: 16px;
+    border: 1px solid #343333;
+    background: transparent;
+    box-sizing: border-box;
+    color: black;
+    z-index: 2;
+}
+
+.library-part .add-book-item select {
+  width: 229px;
+}
+
+.library-part .add-book-item{
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.library-part .add-book-item label{
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  color: black;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  padding: 0 4px;
+  z-index: 1;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.library-part .add-book-item select:focus{
+    background-color: white;
+}
+
+
+.add-book-item input:focus + label,
+.add-book-item input:not(:placeholder-shown) + label,
+.add-book-item select:focus + label,
+.add-book-item select:not(:placeholder-shown) + label{
+    top: -10px;
+    left: 8px;
+    font-size: 16px;
+    color: black;
+    background: white;
+    z-index: 3;
+}
+
+.errorlist {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+    list-style: none;
+    padding-left: 5px;
+}
+
+.add-book-form button{
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+    :hover{
+        cursor: pointer;
+    }
+}
+
+
+
+.library-part .new-book-button-div{
+    margin: 20px;
+    :hover{
+        cursor: pointer;
+    }
+}
+
+.new-book-button{
+    background-color: green;
+    padding: 10px;
+    border: 1px solid black; 
+}
+/* -------------------------------------------------------  NEW BOOK FORM  end*/
+
+main{
+  background-color: white;
+}
+
+.library-main{
+  background-color: white;
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    margin: 0 auto;
+    flex: 1;
+    min-height: calc(100vh-20vh);
+}
+
+
+.vertical-line {
+  width: 3px;              
+  background-color: black;
+}
+
+.filter-part {
+  min-width: 100px;
+  max-width: 250px;
+  padding: 10px;
+  position: sticky;
+  top: 10vh;
+  height: calc(100vh-20vh);
+}
+
+.library-part {
+  display: flex;
+  
+  /* padding: 20px; */
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.library-top-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+
+
+
+/* ---------------------            CAROUSEL */
+
+.carousel-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+}
+
+.carousel-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 24px;
+  width: clamp(350px, 50vw, 600px);
+}
+
+.carousel-div a{
+  opacity: 0;
+  transform: translateX(10px);
+  color: black;
+  font-size: clamp(1.0rem, 2vw, 1.5rem); 
+  transition: all 0.4s ease;
+  }
+
+.carousel-div a.show {
+  opacity: 1;
+  transform: translateX(0);
+}  
+
+.carousel-div a:hover{
+      transform: translateY(-3px); 
+      cursor: pointer;
+  }
+
+#prev-btn, #next-btn{
+  background: none;
+  border: none;
+  font-size: 30px;
+}
+
+#prev-btn:hover, #next-btn{
+    cursor: pointer;
+}
+
+
+
+
+/* ------------------------------- BOOKS SECTION */
+
+
+
+
+
+.book-item{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-item p{
+  text-align: center;
+}
+
+
+.book-item a {
+  color: black;   
+}
+
+.books{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+
+#availability{
+  color: orangered;
+}
+
+#title{
+  margin-top: 3px;
+  font-size: clamp(0.9rem, 2vw, 1.1rem); 
+}
+
+#author{
+  font-size: clamp(0.7rem, 2vw, 0.9rem); 
+}
+
+
+/* ---------------------------------------------------- FILTER SECTION */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+}
+
+.dropdown-btn:hover{
+  cursor: pointer;
+}
+
+.drop-content{
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(0.9rem, 2vw, 1.2rem); 
+}
+
+
+
+#filter-form{
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(1.0rem, 2vw, 1.4rem); 
+  gap: 35px;
+}
+
+.genre select{
+  padding: 5px;
+  width: 100%;
+}
+
+.genre .first-label{
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+}
+
+.availability{
+  display: flex;
+  flex-direction: column;
+}
+
+.availability .first-label {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+}
+
+.author .first-label{
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+}
+
+
+#filter-form button{
+  padding: 5px;
+}
+
+/* -------------------------------------------- PAGINATION */
+.pagination{
+  margin-top: auto;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.step-links{
+  border: #343333 solid 1px;
+  border-radius: 12px;
+  padding-left: 15px;
+  padding: 10px;
+  width: 40%;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 35px;
+}
+
+.page_btn{
+  color: black;
+  font-size: 32px;
+}
+
+.add-book-item .select2-container--default .select2-selection--single {
+  width: 100% !important;
+  padding: 12px 10px 12px 10px;
+  font-size: 16px;
+  border: 1px solid #343333;
+  background: transparent;
+  color: black;
+  box-sizing: border-box;
+  border-radius: 4px;
+  z-index: 2;
+  height: auto;
+}
+
+.add-book-item .select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: normal;
+  color: black;
+  font-size: 16px;
+  padding-left: 0;
+}
+
+/* --------------------------  MEDIA */
+
+@media (max-width:480px){
+
+  .books{
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important;
+}
+
+}
+
+@media (max-width: 686px){
+  .carousel-container{
+    display: none;
+  }
+  .vertical-line{
+    display: none;
+  }
+
+  .library-main{
+    width: 100%;
+    margin: 10px;
+    flex-direction: column;
+  }
+  .filter-part {
+  position: static;
+  }
+}
+
+@media(max-width: 986px){
+  .library-main{
+    width: 90% !important;
+  }
+  .books{
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+}
+}
+
+@media(max-width: 1254px){
+  .library-main{
+    width: 80%;
+  }
+}
+
+@media(min-width: 2200px){
+  .library-main{
+    width: 45%;
+  }
+}
+
+@media(min-width: 2900px){
+  .library-main{
+    width: 35%;
+  }
+}
+/* -------------------------------------------- */
+
+
+
+/* ----------------------------------------------------------------------------------------------- BOOK_PAGE */
+
+
+

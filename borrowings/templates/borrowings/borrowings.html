@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <link rel="stylesheet" href="{% static 'borrowings/borrowings.css' %}">
+{% endblock head %}
+{% block body %}
+    <div class="div">
+        {% if user.is_staff %}
+            {% if reservations %}
+                <h2 class="title-of-section">Reservations</h2>
+                <div class="books">
+                    {% for reservation in reservations %}
+                        <div class="book-item">
+                            <a href="{% url 'reservation_page' reservation.id %}">
+                                <img src="{{ reservation.book.cover_image }}"
+                                     alt="cover image"
+                                     width="100px"
+                                     height="150px">
+                                <p id="title">{{ reservation.book.title }}</p>
+                            </a>
+                            <p id="author">{{ reservation.book.author }}</p>
+                            <p>Reservation ID: {{ reservation.id }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="top-section">
+                <h2 class="title-of-section">Borrowings</h2>
+                <button class="borrow-button">Borrow</button>
+            </div>
+            <div class="hidden borrow-form">
+                <div id="suggestions-container">
+                    <input type="text" id="autocomplete" placeholder="User" autocomplete="off">
+                    <ul id="suggestions">
+                    </ul>
+                </div>
+                <div id="book-input-container">
+                    <input type="text"
+                           id="book-autocomplete"
+                           placeholder="Books"
+                           autocomplete="off">
+                    <div id="suggestion-books"></div>
+                </div>
+                <button id="submit-borrow">Borrow</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Books</th>
+                        <th>Date</th>
+                        <th>Due to</th>
+                        <th>Return</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for borrowing in borrowings %}
+                        <tr>
+                            <td>{{ borrowing.id }}</td>
+                            <td>{{ borrowing.user.username }}</td>
+                            <td>
+                                {{ borrowing.books.count }}
+                                <details>
+                                    {% for book in borrowing.books.all %}<p class="book-table">{{ forloop.counter }}. {{ book.title }}</p>{% endfor %}
+                                </details>
+                            </td>
+                            <td>{{ borrowing.borrow_date }}</td>
+                            <td>{{ borrowing.due_to }}</td>
+                            <td>
+                                <button class="return" data-id="{{ borrowing.id }}">Return</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            {% if user_reservations %}
+                <h2 class="title-of-section">Reservations</h2>
+                <div class="books">
+                    {% for reservation in user_reservations %}
+                        <div class="book-item">
+                            <a href="{% url 'reservation_page' reservation.id %}">
+                                <img src="{{ reservation.book.cover_image }}"
+                                     alt="cover image"
+                                     width="100px"
+                                     height="150px">
+                                <p id="title">{{ reservation.book.title }}</p>
+                            </a>
+                            <p id="author">{{ reservation.book.author }}</p>
+                            <p>Reservation ID: {{ reservation.id }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if borrowings %}
+                <h2 class="title-of-section">Borrowings</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Books</th>
+                            <th>Date</th>
+                            <th>Due to</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for borrowing in user_borrowings %}
+                            <tr>
+                                <td>{{ borrowing.id }}</td>
+                                <td>{{ borrowing.user.username }}</td>
+                                <td>
+                                    {{ borrowing.books.count }}
+                                    <details>
+                                        {% for book in borrowing.books.all %}<p id="book-table">{{ forloop.counter }}. {{ book.title }}</p>{% endfor %}
+                                    </details>
+                                </td>
+                                <td>{{ borrowing.borrow_date }}</td>
+                                <td>{{ borrowing.due_to }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock body %}
+{% block script %}
+    <script src="{% static 'borrowings/borrowings.js' %}"></script>
+{% endblock script %}
