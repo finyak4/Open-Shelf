@@ -2,11 +2,15 @@
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'library/library.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-          rel="stylesheet">
 {% endblock head %}
 {% block body %}
     <div class="library-main">
+        {% comment %} <div id="search-div">
+            <form method="get" action="{% url 'library' %}">
+                <input type="text" id="search" name="query">
+                <button type="submit">Search</button>
+            </form>
+        </div> {% endcomment %}
         <div class="filter-part">
             <h1>Filters</h1>
             <form method="get" action="{% url 'library' %}" id="filter-form">
@@ -14,21 +18,35 @@
                     <label for="genre" class="first-label">Choose a genre:</label>
                     <select id="genre" name="genre">
                         <option value="" disabled selected>Select a genre</option>
-                        {% for genre in genres %}<option value="{{ genre.name }}">{{ genre.name }}</option>{% endfor %}
+                        {% for genre in genres %}
+                            <option value="{{ genre.name }}"
+                                    {% if request.GET.genre == genre.name %}selected{% endif %}>
+                                {{ genre.name }}
+                            </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="availability">
                     <label class="first-label">Availability</label>
                     <label>
-                        <input type="radio" name="available" value="all">
+                        <input type="radio"
+                               name="available"
+                               value="all"
+                               {% if request.GET.available == 'all' %}checked{% endif %}>
                         All
                     </label>
                     <label>
-                        <input type="radio" name="available" value="true">
+                        <input type="radio"
+                               name="available"
+                               value="true"
+                               {% if request.GET.available == 'true' %}checked{% endif %}>
                         Available
                     </label>
                     <label>
-                        <input type="radio" name="available" value="false">
+                        <input type="radio"
+                               name="available"
+                               value="false"
+                               {% if request.GET.available == 'false' %}checked{% endif %}>
                         Unavailable
                     </label>
                 </div>
@@ -38,25 +56,25 @@
                     <div class="dropdown-content">
                         {% for author in authors %}
                             <label>
-                                <input type="checkbox" name="author" value="{{ author }}">
-                                {{ author }}
+                                <input type="checkbox"
+                                       name="author"
+                                       value="{{ author.name }}"
+                                       {% if author.name in authors_selected %}checked{% endif %}>
+                                {{ author.name }}
                             </label>
                         {% endfor %}
                     </div>
                 </div>
-                <button type="submit">Search</button>
+                <div class="filter-buttons">
+                    <a href="?" class="btn-secondary">Clear Filters</a>
+                    <button type="submit">Search</button>
+                </div>
             </form>
         </div>
         <div class="vertical-line"></div>
         <div class="library-part">
             <div class="library-top-bar">
-                <div class="carousel-container">
-                    <button id="prev-btn">
-                        <
-                    </button>
-                    <div class="carousel-div"></div>
-                    <button id="next-btn">></button>
-                </div>
+                {% if message %}<p class="error-message">{{ message }}</p>{% endif %}
                 {% if user.is_staff %}
                     <div class="new-book-button-div">
                         <button class="new-book-button">New Book</button>
@@ -100,6 +118,7 @@
                     </div>
                     <div class="add-book-item">
                         {{ form.genre }}
+                        {{ form.genre.label_tag }}
                         {{ form.genre.errors }}
                     </div>
                     <button type="submit">Add Book</button>
@@ -110,16 +129,17 @@
                     <div class="book-item">
                         <a href="{% url 'book_page' book.id %}">
                             <img src="{{ book.cover_image }}"
-                                 alt="cover image"
-                                 width="100px"
-                                 height="150px">
+                                 width="160"
+                                 height="240"
+                                 alt="cover image">
                             <p id="title">{{ book.title }}</p>
                         </a>
                         <p id="author">{{ book.author }}</p>
-                        {% if book.availability < 5 %}<p id="availability">{{ book.availability }} available</p>{% endif %}
+                        {% comment %} {% if book.availability < 5 %}<p id="availability">{{ book.availability }} available</p>{% endif %} {% endcomment %}
                     </div>
                 {% endfor %}
             </div>
+            <button id="scrollToTop" class="scroll-top-btn">↑</button>
             <div class="pagination">
                 <span class="step-links">
                     {% if books.has_previous %}<a class="page_btn" href="?page={{ books.previous_page_number }}"><</a>{% endif %}
@@ -131,8 +151,5 @@
     </div>
 {% endblock body %}
 {% block script %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{% static 'js/my-select2-init.js' %}"></script>
     <script src="{% static 'library/library.js' %}"></script>
 {% endblock script %}

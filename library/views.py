@@ -4,53 +4,57 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 import json
 from django.http import JsonResponse
-from . import forms
-from . import models
+from library import forms
+from library import models
 from django.utils.timezone import localtime
 from django.views.decorators.csrf import csrf_exempt
+from difflib import get_close_matches
 
 
 def library(request):
     books = models.Book.objects.all()
     genres = models.Genre.objects.all()
         
-    authors = books.values_list('author', flat=True).distinct()
+    authors = models.Author.objects.all()
     if request.method == "POST":
         form = forms.AddBook(request.POST)
         if form.is_valid():
             form.save()
             return redirect("library") 
         else:
-            return render(request, "library/library.html", {"form": form, "books": books, "authors": authors})
+            return render(request, "library/library.html", {"form": form, "books": books, "authors": authors, "message": "Form is not valid. Book was not added."})
     elif request.method == "GET":
-        query = request.GET.get('query')
-        if query:
-            books = models.Book.objects.filter(
-            Q(title__icontains=query) |
-            Q(author__icontains=query) )
-
-        genre = request.GET.get('genre')  
-        if genre:
-            genre = genre.lower()
-            books = models.Book.objects.filter(genre=genre)
-
-        availability = request.GET.get('available')
-        if availability:
-            if availability == "true":
-                books = books.filter(availability__gt = 0)
-            elif availability == "false":
-                books = books.filter(availability__lt = 1) 
-
-        author = request.GET.getlist('author')
-        if author:
-            books = books.filter(author__in=author)
-
         form = forms.AddBook()
-    paginator = Paginator(books, 20)
+        try:
+            query = request.GET.get('query')
+            if query:
+                books = models.Book.objects.filter(
+                Q(title__icontains=query) |
+                Q(author__name__icontains=query))
+
+            genre = request.GET.get('genre')  
+            if genre:
+                books = books.filter(
+                genre__name__icontains=genre
+                )
+            availability = request.GET.get('available')
+            if availability:
+                if availability == "true":
+                    books = books.filter(availability__gt = 0)
+                elif availability == "false":
+                    books = books.filter(availability__lt = 1) 
+
+            author = request.GET.getlist('author')
+            if author:
+                books = books.filter(author__name__in=author)
+        except Exception as e:
+            return render(request, "library/library.html", {"form": form, "books": books, "authors": authors, "message": str(e)})
+        
+    paginator = Paginator(books, 60)
     page_number = request.GET.get('page')
     page_books = paginator.get_page(page_number)
     
-    return render(request, "library/library.html", {"form": form, "books": page_books, "authors": authors, "genres": list(genres)})
+    return render(request, "library/library.html", {"form": form, "books": page_books, "authors": authors, "genres": list(genres), "authors_selected": author if author else []})
 
 
 def book_view(request, id):
@@ -66,13 +70,31 @@ def book_view(request, id):
             data = json.loads(request.body)
 
             book.title = data.get("title", book.title)
-            book.author = data.get("author", book.author)
             book.description = data.get("description", book.description)
             book.availability = data.get("availability", book.availability)
             book.publication_year = data.get("year", book.publication_year)
             book.cover_image = data.get("url", book.cover_image)
-            book.genre = data.get("genre", book.genre)
+            
+            author_name = data.get("author", "").strip()
+            if author_name:
+                existing_authors = list(models.Author.objects.values_list('name', flat=True))
+                close_matches = get_close_matches(author_name, existing_authors, n=1, cutoff=0.8)
+                if close_matches:
+                    author_obj = models.Author.objects.get(name=close_matches[0])
+                else:
+                    author_obj = models.Author.objects.create(name=author_name)
+                book.author = author_obj
 
+            genre_name = data.get("genre", "").strip()
+            if genre_name:
+                existing_genres = list(models.Genre.objects.values_list('name', flat=True))
+                close_matches = get_close_matches(genre_name, existing_genres, n=1, cutoff=0.8)
+                if close_matches:
+                    genre_obj = models.Genre.objects.get(name=close_matches[0])
+                else:
+                    genre_obj = models.Genre.objects.create(name=genre_name)
+                book.genre = genre_obj
+               
             book.save()
 
             return JsonResponse({"status": "success"}, status=200)

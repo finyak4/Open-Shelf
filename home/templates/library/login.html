@@ -1,4 +1,8 @@
 {% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <link href="{% static 'auth.css' %}" rel="stylesheet">
+{% endblock head %}
 {% block body %}
     <h2 id="login-title">Login</h2>
     <form method="post" class="login">
