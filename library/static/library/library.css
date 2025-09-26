@@ -1,80 +1,22 @@
-#add-book-text{
-    color: black;
-    font-size: clamp(1.0rem, 2vw, 1.5rem); 
-    transition: transform 0.2s;
+.form-title{
+  margin: 0px;
 }
 
-.library-part .add-book-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.form-container{
     gap: 5px;
 }
 
 
-.library-part .add-book-item input, .library-part .add-book-item select{
-    width: 100%;
-    padding: 12px 10px 12px 10px;
-    font-size: 16px;
+.container-form-item input, .container-form-item select{
     border: 1px solid #343333;
-    background: transparent;
-    box-sizing: border-box;
-    color: black;
-    z-index: 2;
 }
 
-.library-part .add-book-item select {
+.container-form-item input, .container-form-item select {
   width: 229px;
 }
 
-.library-part .add-book-item{
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.library-part .add-book-item label{
-  position: absolute;
-  left: 10px;
-  top: 12px;
-  color: black;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  padding: 0 4px;
-  z-index: 1;
-}
-
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
 
 
-.library-part .add-book-item select:focus{
-    background-color: white;
-}
-
-
-.add-book-item input:focus + label,
-.add-book-item input:not(:placeholder-shown) + label,
-.add-book-item select:focus + label,
-.add-book-item select:not(:placeholder-shown) + label{
-    top: -10px;
-    left: 8px;
-    font-size: 16px;
-    color: black;
-    background: white;
-    z-index: 3;
-}
-
-.errorlist {
-    color: red;
-    font-size: 12px;
-    margin-top: 10px;
-    list-style: none;
-    padding-left: 5px;
-}
 
 .error-message{
   background-color: orangered;
@@ -93,18 +35,6 @@ input[type=number]::-webkit-inner-spin-button {
 .error-message.hide {
   opacity: 0;
 }
-
-.add-book-form button{
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 16px;
-    :hover{
-        cursor: pointer;
-    }
-}
-
 
 
 .library-part .new-book-button-div{
@@ -223,6 +153,13 @@ main{
 
 
 /* ---------------------------------------------------- FILTER SECTION */
+#filter-form{
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(1.0rem, 2vw, 1.4rem); 
+  gap: 35px;
+}
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -242,12 +179,6 @@ main{
 
 
 
-#filter-form{
-  display: flex;
-  flex-direction: column;
-  font-size: clamp(1.0rem, 2vw, 1.4rem); 
-  gap: 35px;
-}
 
 .genre select{
   padding: 5px;
@@ -279,7 +210,7 @@ main{
   padding: 5px 19px;
 }
 
-.btn-secondary{
+.btn-clean-filters{
   background-color: lightgray;
   border: none;
   padding: 8px 12px;
@@ -299,66 +230,38 @@ main{
   align-items: center;
 }
 
-/* ---------------------top-button */
-
-.scroll-top-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  padding: 10px 15px;
-  font-size: 20px;
-  cursor: pointer;
-  display: none; /* hidden by default */
-  z-index: 1000;
-  transition: opacity 0.3s ease;
-}
-
-.scroll-top-btn:hover {
-  transform: scale(1.2);
-  transition: transform 0.2s ease;
-}
-
-.scroll-top-btn:hover {
-  background-color: #555;
-}
-
-@media (min-width: 1200px) {
-  .scroll-top-btn {
-    right: calc((100vw - 1200px) / 2 - 30px);
-  }
-}
-
 /* -------------------------------------------- PAGINATION */
-.pagination{
-  margin-top: auto;
-  margin-bottom: 20px;
+
+.pagination {
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
-}
-.step-links{
-  border: #343333 solid 1px;
-  border-radius: 12px;
-  padding-left: 15px;
-  padding: 10px;
-  width: 40%;
-  padding-right: 15px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 35px;
+  list-style: none; /* Remove list bullets */
+  padding: 0;
+  gap: 5px; /* Add spacing between items */
 }
 
-.page_btn{
+.pagination a {
+  display: block; /* Let links fill the list item */
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid gray;
   color: black;
-  font-size: 32px;
+  margin: 0 4px;
+  border-radius: 5px; /* Add rounded borders */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.pagination a:hover {
+  background-color: #f0f0f0; /* Light gray on hover */
+  color: #007bff; /* Blue text on hover */
+}
+
+.pagination a.active {
+  background-color: #007bff; /* Blue background for active page */
+  color: white; /* White text for active page */
+  border-color: #007bff;
+}
+
 
 /* --------------------------  MEDIA */
 

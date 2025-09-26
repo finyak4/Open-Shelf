@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from django.core.paginator import Paginator
-from django.db.models import Q
+from library.utils import paginate
 import json
 from django.http import JsonResponse
 from library import forms
@@ -12,49 +11,41 @@ from difflib import get_close_matches
 
 
 def library(request):
+    authors = models.Author.objects.all()
     books = models.Book.objects.all()
     genres = models.Genre.objects.all()
-        
-    authors = models.Author.objects.all()
+    form = forms.AddBook()
+
     if request.method == "POST":
         form = forms.AddBook(request.POST)
         if form.is_valid():
             form.save()
             return redirect("library") 
         else:
-            return render(request, "library/library.html", {"form": form, "books": books, "authors": authors, "message": "Form is not valid. Book was not added."})
-    elif request.method == "GET":
-        form = forms.AddBook()
-        try:
-            query = request.GET.get('query')
-            if query:
-                books = models.Book.objects.filter(
-                Q(title__icontains=query) |
-                Q(author__name__icontains=query))
-
-            genre = request.GET.get('genre')  
-            if genre:
-                books = books.filter(
-                genre__name__icontains=genre
-                )
-            availability = request.GET.get('available')
-            if availability:
-                if availability == "true":
-                    books = books.filter(availability__gt = 0)
-                elif availability == "false":
-                    books = books.filter(availability__lt = 1) 
-
-            author = request.GET.getlist('author')
-            if author:
-                books = books.filter(author__name__in=author)
-        except Exception as e:
-            return render(request, "library/library.html", {"form": form, "books": books, "authors": authors, "message": str(e)})
+            return render(request, "library/library.html", 
+                {"form": form,
+                "books": books,
+                "authors": authors,
+                "genres": genres,
+                "message": "Form is not valid. Book was not added."})
         
-    paginator = Paginator(books, 60)
-    page_number = request.GET.get('page')
-    page_books = paginator.get_page(page_number)
-    
-    return render(request, "library/library.html", {"form": form, "books": page_books, "authors": authors, "genres": list(genres), "authors_selected": author if author else []})
+    query = request.GET.get('query')
+    genre = request.GET.get('genre')  
+    availability = request.GET.get('available')
+    author = request.GET.getlist('author')
+    try:
+        books = models.Book.objects.filter_books(query=query, genre=genre, availability=availability, authors=author)
+    except Exception as e:
+        return render(request, "library/library.html", {"form": form, "books": books, "authors": authors, "message": str(e)})
+
+    page_books, page_range = paginate(books, request)
+    return render(request, "library/library.html",
+        {"form": form,
+        "books": page_books,
+        "authors": authors,
+        "genres": list(genres),
+        "authors_selected": author if author else [],
+        "page_range": page_range})
 
 
 def book_view(request, id):

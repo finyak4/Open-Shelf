@@ -4,26 +4,26 @@
     <link href="{% static 'auth.css' %}" rel="stylesheet">
 {% endblock head %}
 {% block body %}
-    <h2 id="register-title">Register</h2>
-    <form method="post" class="register">
+    <h2 class="form-title">Register</h2>
+    <form method="post" class="form-container">
         {% csrf_token %}
         {{ form.non_field_errors }}
-        <div class="register-form-item">
+        <div class="container-form-item">
             {{ form.username }}
             {{ form.username.label_tag }}
             {{ form.username.errors }}
         </div>
-        <div class="register-form-item">
+        <div class="container-form-item">
             {{ form.email }}
             {{ form.email.label_tag }}
             {{ form.email.errors }}
         </div>
-        <div class="register-form-item">
+        <div class="container-form-item">
             {{ form.password1 }}
             {{ form.password1.label_tag }}
             {{ form.password1.errors }}
         </div>
-        <div class="register-form-item">
+        <div class="container-form-item">
             {{ form.password2 }}
             {{ form.password2.label_tag }}
             {{ form.password2.errors }}

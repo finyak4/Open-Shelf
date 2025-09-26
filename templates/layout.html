@@ -1,5 +1,4 @@
 {% load static %}
-{% load reservations %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,28 +19,49 @@
     <body>
         <header>
             <nav class="nav-bar">
-                <a href="{% url 'library' %}">
-                    <p class="nav-item">Library</p>
+                <a href="{% url 'library' %}" class="nav-item">
+                    <div class="logo-section">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="library-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m16 6 4 14"></path>
+                            <path d="M12 6v14"></path>
+                            <path d="M8 8v12"></path>
+                            <path d="M4 4v16"></path>
+                        </svg>
+                        <div class="logo-text"><p>Open Shelf</p>
+                        <p><span class="logo-subtext">Your gateway to knowledge</span></p></div>
+                    </div>
                 </a>
-                {% if user|has_reserved or user.is_staff %}
-                    <a href="{% url 'borrowings' %}">
-                        <p class="nav-item">Borrowings</p>
+                <div>
+                    <a href="#">
+                        <p class="nav-item">Section in Development</p>
                     </a>
-                {% endif %}
+                </div>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}">
-                        <p class="nav-item">Logout</p>
-                    </a>
+                <div class="logout-section">
+                    <div class="user-info">
+                        <span class="user-name">{{ user.first_name }} {{ user.last_name }}</span>
+                        <span class="user-email">{{ user.email }}</span>
+                    </div>
+                    <button class="custom-button" onclick="window.location.href='{% url 'logout' %}'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-icon">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        <p class="logout-text">
+                          Logout
+                        </p>
+                    </button>
+                </div>    
                 {% else %}
                     <a href="{% url 'login' %}">
                         <p class="nav-item">Login</p>
                     </a>
-                    <a href="{% url 'register' %}">
+                    {% comment %} <a href="{% url 'register' %}">
                         <p class="nav-item">Register</p>
-                    </a>
+                    </a> {% endcomment %}
                 {% endif %}
             </nav>
-            <button class="menu-toggle" aria-label="Toggle navigation menu">☰</button>
         </header>
         <main>
             {% block body %}

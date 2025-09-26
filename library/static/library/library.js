@@ -13,20 +13,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Dropdown
-  const dropdownBtn = document.querySelector(".dropdown-btn");
-  const dropdownContent = document.querySelector(".dropdown-content");
-  if (dropdownBtn && dropdownContent) {
-    dropdownBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dropdownContent.classList.toggle("drop-content");
-    });
+  document.querySelectorAll(".dropdown-btn").forEach((btn) => {
+    const dropdownContent = btn.nextElementSibling; // Assume the dropdown content is the next sibling
+    if (dropdownContent) {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdownContent.classList.toggle("drop-content");
+      });
 
-    document.addEventListener("click", (e) => {
-      if (!dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
-        dropdownContent.classList.remove("drop-content");
-      }
-    });
-  }
+      document.addEventListener("click", (e) => {
+        if (!dropdownContent.contains(e.target) && !btn.contains(e.target)) {
+          dropdownContent.classList.remove("drop-content");
+        }
+      });
+    }
+  });
 
   setTimeout(() => {
   document.querySelectorAll(".error-message").forEach(el => {
@@ -36,16 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   }, 2000);
-
-  const scrollBtn = document.getElementById("scrollToTop");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 500) {
-      scrollBtn.style.display = "block";
-    } else {
-      scrollBtn.style.display = "none";
-    }
-  });
 
   scrollBtn.addEventListener("click", () => {
     window.scrollTo({

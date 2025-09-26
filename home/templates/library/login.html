@@ -4,12 +4,12 @@
     <link href="{% static 'auth.css' %}" rel="stylesheet">
 {% endblock head %}
 {% block body %}
-    <h2 id="login-title">Login</h2>
-    <form method="post" class="login">
+    <h2 class="form-title">Login</h2>
+    <form method="post" class="form-container">
         {% csrf_token %}
         {{ form.non_field_errors }}
-        <div class="login-form-item">{{ form.username }} {{ form.username.label_tag }} {{ form.username.errors }}</div>
-        <div class="login-form-item">{{ form.password }} {{ form.password.label_tag }} {{ form.password.errors }}</div>
+        <div class="container-form-item">{{ form.username }} {{ form.username.label_tag }} {{ form.username.errors }}</div>
+        <div class="container-form-item">{{ form.password }} {{ form.password.label_tag }} {{ form.password.errors }}</div>
         <button type="submit">Login</button>
         <p class="link-below-form">
             Do not have an account? Register <a href="{% url 'register' %}">here</a>

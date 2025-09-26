@@ -1,6 +1,7 @@
 from django.db import models
 from home.models import User
 from .validators import validate_four_digits
+from django.db.models import Q
 
 class Genre(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -25,6 +26,22 @@ class Author(models.Model):
     def __str__(self):
         return self.name    
 
+class BookManager(models.Manager):
+    def filter_books(self, query=None, genre=None, availability=None, authors=None):
+        books = self.all()
+        if query:
+            books = books.filter(Q(title__icontains=query) | Q(author__name__icontains=query))
+        if genre:
+            books = books.filter(genre__name__icontains=genre)
+        if availability:
+            if availability == "true":
+                books = books.filter(availability__gt=0)
+            elif availability == "false":
+                books = books.filter(availability__lt=1)
+        if authors:
+            books = books.filter(author__name__in=authors)
+        return books
+
 class Book(models.Model):    
     title = models.CharField(max_length=128)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, max_length=128, related_name="books", null=True)
@@ -33,6 +50,8 @@ class Book(models.Model):
     publication_year = models.PositiveIntegerField(validators=[validate_four_digits])
     genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True, related_name="books")
     cover_image = models.URLField ()
+
+    objects = BookManager()
 
     class Meta:
         verbose_name = "Book"

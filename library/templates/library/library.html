@@ -27,7 +27,7 @@
                     </select>
                 </div>
                 <div class="availability">
-                    <label class="first-label">Availability</label>
+                    <label class="first-label">Availability:</label>
                     <label>
                         <input type="radio"
                                name="available"
@@ -51,7 +51,7 @@
                     </label>
                 </div>
                 <div class="author">
-                    <label class="first-label">Author</label>
+                    <label class="first-label">Author:</label>
                     <p class="dropdown-btn">Select Author ▼</p>
                     <div class="dropdown-content">
                         {% for author in authors %}
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="filter-buttons">
-                    <a href="?" class="btn-secondary">Clear Filters</a>
+                    <a href="?" class="btn-clean-filters">Clear Filters</a>
                     <button type="submit">Search</button>
                 </div>
             </form>
@@ -82,41 +82,41 @@
                 {% endif %}
             </div>
             {% if user.is_staff %}
-                <form method="post" class="add-book-form hidden" autocomplete="off">
+                <form method="post" class="form-container add-book-form hidden" autocomplete="off">
                     {% csrf_token %}
-                    <h1 id="add-book-text">Add New Book To Library</h1>
+                    <h1 class="form-title">Add New Book To Library</h1>
                     {{ form.non_field_errors }}
-                    <div class="add-book-item">
+                    <div class="container-form-item">
                         {{ form.title }}
                         {{ form.title.label_tag }}
                         {{ form.title.errors }}
                     </div>
-                    <div class="add-book-item">
+                    <div class="container-form-item">
                         {{ form.description }}
                         {{ form.description.label_tag }}
                         {{ form.description.errors }}
                     </div>
-                    <div class="add-book-item">
+                    <div class="container-form-item">
                         {{ form.author }}
                         {{ form.author.label_tag }}
                         {{ form.author.errors }}
                     </div>
-                    <div class="add-book-item">
+                    <div class="container-form-item">
                         {{ form.availability }}
                         {{ form.availability.label_tag }}
                         {{ form.availability.errors }}
                     </div>
-                    <div class="add-book-item">
+                    <div class="container-form-item">
                         {{ form.publication_year }}
                         {{ form.publication_year.label_tag }}
                         {{ form.publication_year.errors }}
                     </div>
-                    <div class="add-book-item">
+                    <div class="container-form-item">
                         {{ form.cover_image }}
                         {{ form.cover_image.label_tag }}
                         {{ form.cover_image.errors }}
                     </div>
-                    <div class="add-book-item">
+                    <div class="container-form-item">
                         {{ form.genre }}
                         {{ form.genre.label_tag }}
                         {{ form.genre.errors }}
@@ -135,20 +135,27 @@
                             <p id="title">{{ book.title }}</p>
                         </a>
                         <p id="author">{{ book.author }}</p>
-                        {% comment %} {% if book.availability < 5 %}<p id="availability">{{ book.availability }} available</p>{% endif %} {% endcomment %}
                     </div>
                 {% endfor %}
             </div>
-            <button id="scrollToTop" class="scroll-top-btn">↑</button>
             <div class="pagination">
-                <span class="step-links">
-                    {% if books.has_previous %}<a class="page_btn" href="?page={{ books.previous_page_number }}"><</a>{% endif %}
-                    <span class="current">{{ books.number }} of {{ books.paginator.num_pages }}.</span>
-                    {% if books.has_next %}<a class="page_btn" href="?page={{ books.next_page_number }}">></a>{% endif %}
-                </span>
+                {% if books.has_previous %}
+                    <a href="?page={{ books.previous_page_number }}">&laquo;</a>
+                {% endif %}
+
+                {% for num in page_range %}
+                    {% if books.number == num %}
+                        <a href="?page={{ num }}" class="active">{{ num }}</a>
+                    {% else %}
+                        <a href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if books.has_next %}
+                    <a href="?page={{ books.next_page_number }}">&raquo;</a>
+                {% endif %}
             </div>
         </div>
-    </div>
 {% endblock body %}
 {% block script %}
     <script src="{% static 'library/library.js' %}"></script>
