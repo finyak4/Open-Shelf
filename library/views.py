@@ -38,14 +38,15 @@ def library(request):
     except Exception as e:
         return render(request, "library/library.html", {"form": form, "books": books, "authors": authors, "message": str(e)})
 
-    page_books, page_range = paginate(books, request)
+    page_books, page_range, query_params = paginate(books, request)
     return render(request, "library/library.html",
         {"form": form,
         "books": page_books,
         "authors": authors,
         "genres": list(genres),
         "authors_selected": author if author else [],
-        "page_range": page_range})
+        "page_range": page_range,
+        "query_params": query_params,})
 
 
 def book_view(request, id):

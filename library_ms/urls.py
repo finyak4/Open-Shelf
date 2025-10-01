@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('home.urls')),
     path('', include('library.urls')),
-    path('borrowings/', include('borrowings.urls')),
+    # path('borrowings/', include('borrowings.urls')),
 ]

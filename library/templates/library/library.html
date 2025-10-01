@@ -5,12 +5,6 @@
 {% endblock head %}
 {% block body %}
     <div class="library-main">
-        {% comment %} <div id="search-div">
-            <form method="get" action="{% url 'library' %}">
-                <input type="text" id="search" name="query">
-                <button type="submit">Search</button>
-            </form>
-        </div> {% endcomment %}
         <div class="filter-part">
             <h1>Filters</h1>
             <form method="get" action="{% url 'library' %}" id="filter-form">
@@ -52,7 +46,7 @@
                 </div>
                 <div class="author">
                     <label class="first-label">Author:</label>
-                    <p class="dropdown-btn">Select Author ▼</p>
+                    <p class="dropdown-btn">Select Author <span>▼</span></p>
                     <div class="dropdown-content">
                         {% for author in authors %}
                             <label>
@@ -140,19 +134,19 @@
             </div>
             <div class="pagination">
                 {% if books.has_previous %}
-                    <a href="?page={{ books.previous_page_number }}">&laquo;</a>
+                    <a href="?page={{ books.previous_page_number }}&{{ query_params }}"> &laquo;</a>
                 {% endif %}
 
                 {% for num in page_range %}
                     {% if books.number == num %}
-                        <a href="?page={{ num }}" class="active">{{ num }}</a>
+                        <a href="?page={{ num }}&{{ query_params }}" class="active">{{ num }}</a>
                     {% else %}
-                        <a href="?page={{ num }}">{{ num }}</a>
+                        <a href="?page={{ num }}&{{ query_params }}">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
 
                 {% if books.has_next %}
-                    <a href="?page={{ books.next_page_number }}">&raquo;</a>
+                    <a href="?page={{ books.next_page_number }}&{{ query_params }}"> &raquo;</a>
                 {% endif %}
             </div>
         </div>

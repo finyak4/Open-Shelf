@@ -61,7 +61,7 @@ class Command(BaseCommand):
                 availability=6,
                 publication_year=1813,
                 genre=models.Genre.objects.get(name="Romance"),
-                cover_image="https://www.imdb.com/title/tt0414387/mediaviewer/rm1343528192/?ref_=tt_ov_i"
+                cover_image="https://m.media-amazon.com/images/I/712P0p5cXIL._UF1000,1000_QL80_.jpg"
             )
 
             models.Book.objects.create(
