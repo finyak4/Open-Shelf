@@ -4,7 +4,11 @@ main{
 
 #book-page-div{
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
 }
 
 #book-page-div > *{
@@ -14,10 +18,6 @@ main{
 
 .edit-book-button-div{
   margin-top: 20px;
-}
-
-.book-info-description{
-  margin-bottom: 35px;
 }
 
 .login-to-reserve{
@@ -46,14 +46,24 @@ main{
   z-index: 9999; 
 }
 
-#close, #save, #reserve, .edit-book-button, #borrow_btn{
-  padding: 10px;
-    border: 1px solid black;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 16px;
-    margin-bottom: 10px;
+.btn-clean-filters{
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
 }
+#close, #save, #reserve, .edit-book-button, #borrow_btn{
+  background-color: var(--primary-color);
+  padding: 8px 12px;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  font-size: 12px;
+  color: white;
+  border: 1px solid gray;
+  border-radius: 4px;
+  height: 35px;
+}
+
+
 
 #reserve, #borrow_btn{
   margin-top: 5px;
@@ -127,51 +137,88 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .book-info-title{
-  font-family: 'Bebas Neue', sans-serif;
-  letter-spacing: 2px;
-  font-size: clamp(1.2rem, 2vw, 1.8rem); 
+  font-family: "Inter", "Segoe UI", "Roboto", sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  font-size: clamp(1.4rem, 2vw, 2rem); 
+}
+
+.book-info-description-div{
+  margin-top: 25px;
+  margin-bottom: 25px;
+  max-width: 800px;
 }
 
 .book-info-description{
-  margin-top: 25px;
-  font-size: clamp(0.9rem, 2vw, 1.2rem); 
-  font-family: "Amino", sans-serif;
+  margin-top: 15px;
+  font-size: clamp(0.9rem, 2vw, 1.0rem); 
+  font-family: "Inter", "Segoe UI", "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #374151;
 }
 
-.book-info-year, .book-info-author, .book-info-id{
+.section-title {
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.0rem, 2vw, 1.25rem);
+  margin-bottom: 0.75rem;
+  color: #111827; 
+}
+
+.book-info-year, .book-info-genre{
+  font-size: clamp(0.8rem, 2vw, 1.0rem);
+  font-weight: 400;
+  font-family: "Inter", "Segoe UI", "Roboto", sans-serif;
+  color: #6b7280;
+}
+
+.book-info-author{
   font-size: clamp(1.0rem, 2vw, 1.2rem);
-}
-
-.book-info-id{
-    text-decoration: underline; 
+  font-weight: 500;
+  font-family: "Inter", "Segoe UI", "Roboto", sans-serif;
+  color: #4b5563;
 }
 
 #book-info{
     margin-left: 25px;
 }
 
-.reservation_id, .user-info{
-  font-family: "Roboto Mono";
-  font-size: clamp(1.0rem, 2vw, 1.4rem); 
+
+.author-description{
+  margin-top: 10px;
+  font-size: clamp(0.9rem, 2vw, 1.0rem); 
+  font-family: "Inter", "Segoe UI", "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #374151;
+  max-width: 800px;
 }
 
-#reservation-timer{
-  font-family: 'Bebas Neue', sans-serif;
-  letter-spacing: 2px;
-  font-size: clamp(1.2rem, 2vw, 1.8rem); 
+.author-description-div{
+  margin-top: 25px;
+  margin-bottom: 50px;
 }
 
-@media (max-width: 560px){
-  img{
-    width: 150px !important;
-    height: 200px !important;
-}
-#close, #save, #reserve, .edit-book-button{
-  padding: 5px;}
+@media (max-width: 768px){
+  .book-div{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #book-info{
+    margin-left: 0;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .edit-book-button-div{
+    display: none;
+  }
 }
 
 @media (min-width: 1668px){
-.book-info-year, .book-info-author, .book-info-id{
+.book-info-year, .book-info-author{
   font-size: clamp(1.0rem, 2vw, 1.4rem);
 }}
   

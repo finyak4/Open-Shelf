@@ -45,7 +45,7 @@
     }
 }
 
-.new-book-button{
+.new-book-button, #add-book-button{
     background-color: var(--primary-color);
     padding: 10px;
     border: 1px solid black;

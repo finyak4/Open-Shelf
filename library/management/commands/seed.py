@@ -15,11 +15,11 @@ class Command(BaseCommand):
 
         authors = ['Isaac Asimov', 'J.K. Rowling', 'Agatha Christie', 'Jane Austen', 'Stephen King']
         descriptions = [
-            "Prolific science fiction author known for the Foundation series.",
-            "British author, best known for the Harry Potter series.",
-            "Renowned mystery writer, famous for Hercule Poirot and Miss Marple.",
-            "Classic novelist known for works like Pride and Prejudice.",
-            "Master of horror fiction, author of The Shining and IT."
+            "Prolific science fiction author known for the Foundation series. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "British author, best known for the Harry Potter series. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "Renowned mystery writer, famous for Hercule Poirot and Miss Marple. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "Classic novelist known for works like Pride and Prejudice. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "Master of horror fiction, author of The Shining and IT. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         ]
         for author_name, desc in zip(authors, descriptions):
             models.Author.objects.create(name=author_name, description=desc)
@@ -28,7 +28,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"Foundation Vol. {i}",
                 author=models.Author.objects.get(name="Isaac Asimov"),
-                description="A complex saga of humans scattered on planets throughout the galaxy all living under the rule of the Galactic Empire.",
+                description="A complex saga of humans scattered on planets throughout the galaxy all living under the rule of the Galactic Empire. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=5,
                 publication_year=1951,
                 genre=models.Genre.objects.get(name="Science Fiction"),
@@ -38,7 +38,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"Harry Potter and the Sorcerer's Stone Vol. {i}",
                 author=models.Author.objects.get(name="J.K. Rowling"),
-                description="The first book in the Harry Potter series, introducing us to the young wizard and his adventures at Hogwarts.",
+                description="The first book in the Harry Potter series, introducing us to the young wizard and his adventures at Hogwarts. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=10,
                 publication_year=1997,
                 genre=models.Genre.objects.get(name="Fantasy"),
@@ -47,7 +47,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"Murder on the Orient Express Vol. {i}",
                 author=models.Author.objects.get(name="Agatha Christie"),
-                description="Detective Hercule Poirot must solve a murder on a snowbound train filled with suspects.",
+                description="Detective Hercule Poirot must solve a murder on a snowbound train filled with suspects. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=4,
                 publication_year=1934,
                 genre=models.Genre.objects.get(name="Mystery"),
@@ -57,7 +57,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"Pride and Prejudice Vol. {i}",
                 author=models.Author.objects.get(name="Jane Austen"),
-                description="A classic romance novel exploring love, class, and misunderstandings in Regency England.",
+                description="A classic romance novel exploring love, class, and misunderstandings in Regency England. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=6,
                 publication_year=1813,
                 genre=models.Genre.objects.get(name="Romance"),
@@ -67,7 +67,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"IT Vol. {i}",
                 author=models.Author.objects.get(name="Stephen King"),
-                description="A horror novel about a shape-shifting entity that terrorizes children in Derry, Maine.",
+                description="A horror novel about a shape-shifting entity that terrorizes children in Derry, Maine. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=4,
                 publication_year=1986,
                 genre=models.Genre.objects.get(name="Horror"),
@@ -77,7 +77,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"The Robots of Dawn Vol. {i}",
                 author=models.Author.objects.get(name="Isaac Asimov"),
-                description="A sci-fi mystery where detective Elijah Baley must solve a murder on a distant planet populated by robots.",
+                description="A sci-fi mystery where detective Elijah Baley must solve a murder on a distant planet populated by robots. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=7,
                 publication_year=1983,
                 genre=models.Genre.objects.get(name="Science Fiction"),
@@ -87,7 +87,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"Harry Potter and the Chamber of Secrets Vol. {i}",
                 author=models.Author.objects.get(name="J.K. Rowling"),
-                description="The second book in the Harry Potter series, following Harry’s adventures as the Chamber of Secrets is opened at Hogwarts.",
+                description="The second book in the Harry Potter series, following Harry’s adventures as the Chamber of Secrets is opened at Hogwarts. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=8,
                 publication_year=1998,
                 genre=models.Genre.objects.get(name="Fantasy"),
@@ -97,7 +97,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"And Then There Were None Vol. {i}",
                 author=models.Author.objects.get(name="Agatha Christie"),
-                description="Ten strangers are invited to a remote island, where they are killed one by one in this chilling mystery.",
+                description="Ten strangers are invited to a remote island, where they are killed one by one in this chilling mystery. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=5,
                 publication_year=1939,
                 genre=models.Genre.objects.get(name="Mystery"),
@@ -107,7 +107,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"Sense and Sensibility Vol. {i}",
                 author=models.Author.objects.get(name="Jane Austen"),
-                description="A romantic drama about the Dashwood sisters as they navigate love and societal expectations.",
+                description="A romantic drama about the Dashwood sisters as they navigate love and societal expectations. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=4,
                 publication_year=1811,
                 genre=models.Genre.objects.get(name="Romance"),
@@ -117,7 +117,7 @@ class Command(BaseCommand):
             models.Book.objects.create(
                 title=f"The Shining Vol. {i}",
                 author=models.Author.objects.get(name="Stephen King"),
-                description="A psychological horror novel about a family isolated in a haunted hotel.",
+                description="A psychological horror novel about a family isolated in a haunted hotel. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 availability=2,
                 publication_year=1977,
                 genre=models.Genre.objects.get(name="Horror"),

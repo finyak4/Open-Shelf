@@ -46,7 +46,9 @@
                 </div>
                 <div class="author">
                     <label class="first-label">Author:</label>
-                    <p class="dropdown-btn">Select Author <span>▼</span></p>
+                    <p class="dropdown-btn">
+                        Select Author <span>▼</span>
+                    </p>
                     <div class="dropdown-content">
                         {% for author in authors %}
                             <label>
@@ -76,7 +78,9 @@
                 {% endif %}
             </div>
             {% if user.is_staff %}
-                <form method="post" class="form-container add-book-form hidden" autocomplete="off">
+                <form method="post"
+                      class="form-container add-book-form hidden"
+                      autocomplete="off">
                     {% csrf_token %}
                     <h1 class="form-title">Add New Book To Library</h1>
                     {{ form.non_field_errors }}
@@ -115,7 +119,7 @@
                         {{ form.genre.label_tag }}
                         {{ form.genre.errors }}
                     </div>
-                    <button type="submit">Add Book</button>
+                    <button type="submit" id="add-book-button">Add Book</button>
                 </form>
             {% endif %}
             <div class="books">
@@ -133,10 +137,7 @@
                 {% endfor %}
             </div>
             <div class="pagination">
-                {% if books.has_previous %}
-                    <a href="?page={{ books.previous_page_number }}&{{ query_params }}"> &laquo;</a>
-                {% endif %}
-
+                {% if books.has_previous %}<a href="?page={{ books.previous_page_number }}&{{ query_params }}">&laquo;</a>{% endif %}
                 {% for num in page_range %}
                     {% if books.number == num %}
                         <a href="?page={{ num }}&{{ query_params }}" class="active">{{ num }}</a>
@@ -144,12 +145,10 @@
                         <a href="?page={{ num }}&{{ query_params }}">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
-
-                {% if books.has_next %}
-                    <a href="?page={{ books.next_page_number }}&{{ query_params }}"> &raquo;</a>
-                {% endif %}
+                {% if books.has_next %}<a href="?page={{ books.next_page_number }}&{{ query_params }}">&raquo;</a>{% endif %}
             </div>
         </div>
+    </div>
 {% endblock body %}
 {% block script %}
     <script src="{% static 'library/library.js' %}"></script>

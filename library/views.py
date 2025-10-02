@@ -51,12 +51,10 @@ def library(request):
 
 def book_view(request, id):
     book = get_object_or_404(models.Book, pk=id)
+    genres = models.Genre.objects.all()
     if request.method == "GET":
-        has_reserved = False
-        if request.user.is_authenticated:
-            has_reserved = models.Reservation.objects.filter(book=book.id, user=request.user.id, handed=False).exists()
-        
-        return render(request, "library/book_page.html", {"book": book, "has_reserved": has_reserved})
+        return render(request, "library/book_page.html", {"book": book, "genres": list(genres)})
+    
     elif request.method == "PUT":
         try:
             data = json.loads(request.body)

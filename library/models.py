@@ -1,6 +1,7 @@
 from django.db import models
 from home.models import User
-from .validators import validate_four_digits
+from library.validators import validate_four_digits
+from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.db.models import Q
 
 class Genre(models.Model):
@@ -16,7 +17,7 @@ class Genre(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=128, unique=True)
-    description = models.CharField(max_length=512, blank=True, null=True)
+    description = models.CharField(max_length=1024, blank=True, null=True)
 
     class Meta:
         verbose_name = "Author"
@@ -45,7 +46,7 @@ class BookManager(models.Manager):
 class Book(models.Model):    
     title = models.CharField(max_length=128)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, max_length=128, related_name="books", null=True)
-    description = models.CharField(max_length=1024)
+    description = models.CharField(validators=[MinLengthValidator(128), MaxLengthValidator(1024)])
     availability = models.PositiveIntegerField(default=0)
     publication_year = models.PositiveIntegerField(validators=[validate_four_digits])
     genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True, related_name="books")

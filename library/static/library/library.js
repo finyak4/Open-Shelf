@@ -37,12 +37,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   }, 2000);
-
-  scrollBtn.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-
 });
