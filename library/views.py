@@ -1,13 +1,10 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from library.utils import paginate
-import json
+from library.utils import paginate, edit_book
 from django.http import JsonResponse
 from library import forms
 from library import models
-from django.utils.timezone import localtime
 from django.views.decorators.csrf import csrf_exempt
-from difflib import get_close_matches
 
 
 def library(request):
@@ -57,64 +54,35 @@ def book_view(request, id):
     
     elif request.method == "PUT":
         try:
-            data = json.loads(request.body)
-
-            book.title = data.get("title", book.title)
-            book.description = data.get("description", book.description)
-            book.availability = data.get("availability", book.availability)
-            book.publication_year = data.get("year", book.publication_year)
-            book.cover_image = data.get("url", book.cover_image)
-            
-            author_name = data.get("author", "").strip()
-            if author_name:
-                existing_authors = list(models.Author.objects.values_list('name', flat=True))
-                close_matches = get_close_matches(author_name, existing_authors, n=1, cutoff=0.8)
-                if close_matches:
-                    author_obj = models.Author.objects.get(name=close_matches[0])
-                else:
-                    author_obj = models.Author.objects.create(name=author_name)
-                book.author = author_obj
-
-            genre_name = data.get("genre", "").strip()
-            if genre_name:
-                existing_genres = list(models.Genre.objects.values_list('name', flat=True))
-                close_matches = get_close_matches(genre_name, existing_genres, n=1, cutoff=0.8)
-                if close_matches:
-                    genre_obj = models.Genre.objects.get(name=close_matches[0])
-                else:
-                    genre_obj = models.Genre.objects.create(name=genre_name)
-                book.genre = genre_obj
-               
-            book.save()
-
+            edit_book(request, book)
             return JsonResponse({"status": "success"}, status=200)
 
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
         
-def reserve(request, id):
-    if request.method == "POST":
-        models.Reservation.create_reservation(id, request.user)
+# def reserve(request, id):
+#     if request.method == "POST":
+#         models.Reservation.create_reservation(id, request.user)
 
-        return JsonResponse({"status": "success"}, status=200)
-    elif request.method == "DELETE":
-        try:
-            models.Reservation.overdue(id)
-            return JsonResponse({"status": "deleted"}, status=204)
-        except models.Reservation.DoesNotExist:
-            return JsonResponse({"error": "Reservation not found"}, status=404)
-    return JsonResponse({"error": "Method not allowed"}, status=405)
+#         return JsonResponse({"status": "success"}, status=200)
+#     elif request.method == "DELETE":
+#         try:
+#             models.Reservation.overdue(id)
+#             return JsonResponse({"status": "deleted"}, status=204)
+#         except models.Reservation.DoesNotExist:
+#             return JsonResponse({"error": "Reservation not found"}, status=404)
+#     return JsonResponse({"error": "Method not allowed"}, status=405)
 
 
 
-def reservation_page(request, id):
-    reservation_time = None
-    reservation = None
-    reservations = []
-    try:
-        reservation = models.Reservation.objects.get(id=id, handed=False)
-        reservation_time = localtime(reservation.time).isoformat()
-        reservations = models.Reservation.objects.filter(user=reservation.user, handed=False)
-    except models.Reservation.DoesNotExist:
-        pass
-    return render(request, "library/reservation_page.html", {"reservation": reservation,"reservation_time": reservation_time, "reservations": reservations})
+# def reservation_page(request, id):
+#     reservation_time = None
+#     reservation = None
+#     reservations = []
+#     try:
+#         reservation = models.Reservation.objects.get(id=id, handed=False)
+#         reservation_time = localtime(reservation.time).isoformat()
+#         reservations = models.Reservation.objects.filter(user=reservation.user, handed=False)
+#     except models.Reservation.DoesNotExist:
+#         pass
+#     return render(request, "library/reservation_page.html", {"reservation": reservation,"reservation_time": reservation_time, "reservations": reservations})

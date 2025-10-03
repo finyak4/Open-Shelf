@@ -5,6 +5,7 @@ from difflib import get_close_matches
 
 class AddBook(forms.ModelForm):
     genre = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    author = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = models.Book
@@ -17,7 +18,7 @@ class AddBook(forms.ModelForm):
             field.widget.attrs['placeholder'] = " "
 
     def clean_author(self):
-        author_name = self.cleaned_data.get('author').strip()
+        author_name = self.cleaned_data.get('author', '').strip()
         if not author_name:
             return None
 

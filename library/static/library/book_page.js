@@ -11,6 +11,46 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+  document.getElementById("save").addEventListener("click", async () => {
+    const bookId = document.getElementById("book-info").dataset.id;
+    const data = {
+      title: document.getElementById("edit-title").value,
+      author: document.getElementById("edit-author").value,
+      availability: document.getElementById("edit-availability").value,
+      year: document.getElementById("edit-year").value,
+      url: document.getElementById("edit-url").value,
+      genre: document.getElementById("edit-genre").value,
+      description: document.getElementById("edit-description").value,
+    };
+
+    const response = await fetch(`/book/${bookId}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      alert("Book updated successfully!");
+      document.querySelector(".book-info-title").textContent = data.title;
+      document.querySelector(".book-info-author").textContent = data.author;
+      document.querySelector(".book-info-year").textContent = data.year;
+      document.querySelector(".book-info-genre").textContent = `Genre: ${data.genre}`;
+      document.querySelector(".book-info-description").textContent = data.description; 
+
+      const coverImage = document.querySelector(".book-div img");
+      if (coverImage) {
+        coverImage.src = data.url;
+      }
+
+      location.reload();
+    } else {
+      alert("Failed to update book.");
+      location.reload();
+    }
+  });
 });
 
 // const reserveBtn = document.getElementById("reserve");
@@ -36,11 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
 //         alert("Book reserved successfully!");
 //         const availabilityElem = document.querySelector("#availability");
 //         if (availabilityElem) {
-          
+
 //           const match = availabilityElem.textContent.match(/\d+/);
 //           if (match) {
 //             let availability = parseInt(match[0]);
-//             availability--; 
+//             availability--;
 //             availabilityElem.textContent = `${availability} available`;
 //           }
 //         }
@@ -51,4 +91,3 @@ document.addEventListener("DOMContentLoaded", () => {
 //       });
 //   });
 // }
-

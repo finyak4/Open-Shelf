@@ -20,15 +20,6 @@ main{
   margin-top: 20px;
 }
 
-.login-to-reserve{
-  font-size: clamp(0.9rem, 2vw, 1.2rem); 
-}
-
-.login-to-reserve a{
-  text-decoration: underline;
-}
-
-
 
 .edit-book-form{
   margin-top: 10px;
@@ -40,19 +31,37 @@ main{
   background-color: rgba(75, 75, 75, 0.5);
   backdrop-filter: blur(3px); 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 20px;
   justify-content: center;
   align-items: center;
   z-index: 9999; 
 }
 
-.btn-clean-filters{
-  color: black;
-  text-decoration: none;
-  text-align: center;
-  white-space: nowrap;
+.edit-book-main-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-#close, #save, #reserve, .edit-book-button, #borrow_btn{
+
+.edit-book-description-div{
+  height: auto;
+}
+
+.edit-book-description-div textarea {
+    width: 100%; 
+    height: 39vh;
+    padding: 12px 10px;
+    font-size: 16px; 
+    border: 1px solid #343333; 
+    background: transparent; 
+    box-sizing: border-box; 
+    color: black; 
+    resize: none; 
+    overflow-wrap: break-word;
+}
+
+#close, #save, .edit-book-button{
   background-color: var(--primary-color);
   padding: 8px 12px;
   font-size: clamp(0.8rem, 2vw, 1.2rem);
@@ -61,6 +70,11 @@ main{
   border: 1px solid gray;
   border-radius: 4px;
   height: 35px;
+  cursor: pointer;
+}
+
+#close, #save{
+  width: 70px;
 }
 
 
@@ -69,7 +83,7 @@ main{
   margin-top: 5px;
 }
 
-.edit-book-item input, .edit-book-item select{
+.edit-book-item input{
     width: 100%;
     padding: 12px 10px 12px 10px;
     font-size: 16px;
@@ -78,10 +92,6 @@ main{
     box-sizing: border-box;
     color: rgb(0, 0, 0);
     z-index: 2;
-}
-
-.edit-book-item select {
-  width: 229px;
 }
 
 .edit-book-item{
@@ -107,28 +117,26 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 
-.edit-book-item select:focus{
-    background-color: white;
-}
-
 
 .edit-book-item input:focus + label,
 .edit-book-item input:not(:placeholder-shown) + label,
-.edit-book-item select:focus + label,
-.edit-book-item select:not(:placeholder-shown) + label{
-    top: -10px;
-    left: 8px;
-    font-size: 16px;
-    color: black;
-    background: white;
-    z-index: 3;
+.edit-book-item textarea:focus + label,
+.edit-book-item textarea:not(:placeholder-shown) + label{
+  top: -10px;
+  left: 8px;
+  font-size: 16px;
+  color: black;
+  background: white;
+  border: 1px solid #343333;
+  border-radius: 4px;
+  z-index: 3;
 }
 
 
 
 .edit-book-button:hover{
-      cursor: pointer;
-    }
+  cursor: pointer;
+}
 
 .book-div{
   display: flex;
@@ -210,6 +218,10 @@ input[type=number]::-webkit-inner-spin-button {
     margin-left: 0;
     margin-top: 15px;
     text-align: center;
+  }
+
+  .book-info-description-div, .author-description-div{
+    max-width: 650px;
   }
 
   .edit-book-button-div{

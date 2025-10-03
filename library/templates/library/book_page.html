@@ -16,90 +16,70 @@
                 <p class="book-info-author">{{ book.author }}</p>
                 <p class="book-info-year">{{ book.publication_year }}</p>
                 <p class="book-info-genre">Genre: {{ book.genre }}</p>
-                {% if book.availability < 5 %}
-                    <p id="availability">{{ book.availability }} available</p>
-                    {% comment %}
-                        {% if not user.is_staff %}
-                            {% if not has_reserved and user.is_authenticated %}<button id="reserve">Reserve</button>{% endif %}
-                            {% if not user.is_authenticated %}
-                                <p class="login-to-reserve">
-                                    <a href="{% url 'login' %}">Login</a> to reserve
-                                </p>
-                            {% endif %}
-                        {% endif %}
-                    {% endcomment %}
-                {% endif %}
                 {% if user.is_staff %}
                     <div class="edit-book-button-div">
-                        <button class="edit-book-button"
-                                data-title="{{ book.title }}"
-                                data-author="{{ book.author }}"
-                                data-year="{{ book.publication_year }}"
-                                data-url="{{ book.cover_image }}"
-                                data-genre="{{ book.genre }}"
-                                data-description="{{ book.description }}"
-                                data-availability="{{ book.availability }}">Edit</button>
+                        <button class="edit-book-button">Edit</button>
                     </div>
                     <div>
                         <div class="edit-book-form hidden">
-                            <button id="close">Close</button>
-                            <div class="edit-book-item">
-                                <input type="text"
-                                       id="edit-title"
-                                       name="title"
-                                       placeholder=" "
-                                       value="{{ book.title }}">
-                                <label for="edit-title">Title</label>
+                            <div class="edit-book-main-div">
+                                <button id="close">Close</button>
+                                <div class="edit-book-item">
+                                    <input type="text"
+                                           id="edit-title"
+                                           name="title"
+                                           placeholder=" "
+                                           value="{{ book.title }}">
+                                    <label for="edit-title">Title</label>
+                                </div>
+                                <div class="edit-book-item">
+                                    <input type="text"
+                                           id="edit-author"
+                                           name="author"
+                                           placeholder=" "
+                                           value="{{ book.author }}">
+                                    <label for="edit-author">Author</label>
+                                </div>
+                                <div class="edit-book-item">
+                                    <input type="number"
+                                           id="edit-availability"
+                                           name="availability"
+                                           placeholder=" "
+                                           value="{{ book.availability }}">
+                                    <label for="edit-availability">Availability</label>
+                                </div>
+                                <div class="edit-book-item">
+                                    <input type="number"
+                                           id="edit-year"
+                                           name="year"
+                                           placeholder=" "
+                                           value="{{ book.publication_year }}">
+                                    <label for="edit-year">Year</label>
+                                </div>
+                                <div class="edit-book-item">
+                                    <input type="url"
+                                           id="edit-url"
+                                           name="url"
+                                           placeholder=" "
+                                           value="{{ book.cover_image }}">
+                                    <label for="edit-url">Cover URL</label>
+                                </div>
+                                <div class="edit-book-item">
+                                    <input type="text"
+                                           id="edit-genre"
+                                           name="genre"
+                                           placeholder=" "
+                                           value="{{ book.genre }}">
+                                    <label for="edit-genre">Genre</label>
+                                </div>
+                                <button id="save" type="submit">Save</button>
                             </div>
-                            <div class="edit-book-item">
-                                <input type="text"
-                                       id="edit-description"
-                                       name="description"
-                                       placeholder=" "
-                                       value="{{ book.description }}">
-                                <label for="edit-description">Description</label>
+                            <div class="edit-book-description-div">
+                                <div class="edit-book-item">
+                                    <textarea id="edit-description" name="description" placeholder=" ">{{ book.description }}</textarea>
+                                    <label for="edit-description">Description</label>
+                                </div>
                             </div>
-                            <div class="edit-book-item">
-                                <input type="text"
-                                       id="edit-author"
-                                       name="author"
-                                       placeholder=" "
-                                       value="{{ book.author }}">
-                                <label for="edit-author">Author</label>
-                            </div>
-                            <div class="edit-book-item">
-                                <input type="number"
-                                       id="edit-availability"
-                                       name="availability"
-                                       placeholder=" "
-                                       value="{{ book.availability }}">
-                                <label for="edit-availability">Availability</label>
-                            </div>
-                            <div class="edit-book-item">
-                                <input type="number"
-                                       id="edit-year"
-                                       name="year"
-                                       placeholder=" "
-                                       value="{{ book.publication_year }}">
-                                <label for="edit-year">Year</label>
-                            </div>
-                            <div class="edit-book-item">
-                                <input type="url"
-                                       id="edit-url"
-                                       name="url"
-                                       placeholder=" "
-                                       value="{{ book.cover_image }}">
-                                <label for="edit-url">Cover URL</label>
-                            </div>
-                            <div class="edit-book-item">
-                                <input type="text"
-                                       id="edit-genre"
-                                       name="genre"
-                                       placeholder=" "
-                                       value="{{ book.genre }}">
-                                <label for="edit-genre">Genre</label>
-                            </div>
-                            <button id="save" type="submit">Save</button>
                         </div>
                     </div>
                 {% endif %}
@@ -109,12 +89,14 @@
                 </div>
             </div>
         </div>
-        <div class="author-description-div">
-            <p class="section-title">About the Author</p>
-            <p class="book-info-author">{{ book.author.name }}</p>
-            <p class="author-description">{{ book.author.description }}</p>
+        {% if book.author.description %}
+            <div class="author-description-div">
+                <p class="section-title">About the Author</p>
+                <p class="book-info-author">{{ book.author.name }}</p>
+                <p class="author-description">{{ book.author.description }}</p>
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock body %}
 {% block script %}
     <script src="{% static 'library/book_page.js' %}"></script>

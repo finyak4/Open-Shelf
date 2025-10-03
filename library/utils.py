@@ -1,4 +1,7 @@
 from django.core.paginator import Paginator
+import json
+from difflib import get_close_matches
+from library import models
 
 def paginate(queryset, request, per_page=30):
     paginator = Paginator(queryset, per_page)
@@ -23,3 +26,35 @@ def paginate(queryset, request, per_page=30):
         else:
             page_range = [1] + list(range(current_page - 3, current_page + 3)) + ["..."] + [total_pages]
     return page_books, page_range, query_params.urlencode()
+
+def edit_book(request, book):
+    data = json.loads(request.body)
+
+    book.title = data.get("title", book.title)
+    book.description = data.get("description", book.description)
+    book.availability = data.get("availability", book.availability)
+    book.publication_year = data.get("year", book.publication_year)
+    book.cover_image = data.get("url", book.cover_image)
+            
+    author_name = data.get("author", "").strip()
+    if author_name:
+        existing_authors = list(models.Author.objects.values_list('name', flat=True))
+        close_matches = get_close_matches(author_name, existing_authors, n=1, cutoff=0.8)
+        if close_matches:
+            author_obj = models.Author.objects.get(name=close_matches[0])
+        else:
+            author_obj = models.Author.objects.create(name=author_name)
+        book.author = author_obj
+
+    genre_name = data.get("genre", "").strip()
+    if genre_name:
+        existing_genres = list(models.Genre.objects.values_list('name', flat=True))
+        close_matches = get_close_matches(genre_name, existing_genres, n=1, cutoff=0.8)
+        if close_matches:
+            genre_obj = models.Genre.objects.get(name=close_matches[0])
+        else:
+            genre_obj = models.Genre.objects.create(name=genre_name)
+        book.genre = genre_obj
+        
+    book.full_clean()
+    book.save()
