@@ -20,7 +20,7 @@ jobs:
         POSTGRES_PORT: 5432
     services:
       postgres:
-        image: postgres:13
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
