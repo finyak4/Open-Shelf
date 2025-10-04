@@ -9,12 +9,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    env:
+        DJANGO_SETTINGS_MODULE: library_core.settings
+        SECRET_KEY: supersecretkey
     services:
       postgres:
         image: postgres:13
         env:
-          DJANGO_SETTINGS_MODULE: library_core.settings
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: test_db
