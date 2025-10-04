@@ -12,7 +12,7 @@ jobs:
     env:
         DJANGO_SETTINGS_MODULE: library_core.settings
         SECRET_KEY: supersecretkey
-        Debug: 0
+        DEBUG: 0
     services:
       postgres:
         image: postgres:13
