@@ -16,6 +16,7 @@ jobs:
         POSTGRES_DB: test_db
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
+        POSTGRES_HOST: localhost
     services:
       postgres:
         image: postgres:13
