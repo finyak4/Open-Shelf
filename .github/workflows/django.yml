@@ -13,6 +13,9 @@ jobs:
         DJANGO_SETTINGS_MODULE: library_core.settings
         SECRET_KEY: supersecretkey
         DEBUG: 0
+        POSTGRES_DB: test_db
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
     services:
       postgres:
         image: postgres:13
