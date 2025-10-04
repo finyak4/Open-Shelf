@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Dropdown
   document.querySelectorAll(".dropdown-btn").forEach((btn) => {
-    const dropdownContent = btn.nextElementSibling; // Assume the dropdown content is the next sibling
+    const dropdownContent = btn.nextElementSibling; 
     if (dropdownContent) {
       btn.addEventListener("click", (e) => {
         e.stopPropagation();

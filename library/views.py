@@ -1,23 +1,28 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from library.utils import paginate, edit_book
+from library.utils import paginate, edit_book, add_book_creation
 from django.http import JsonResponse
 from library import forms
 from library import models
 from django.views.decorators.csrf import csrf_exempt
+from django.db import transaction
 
 
 def library(request):
     authors = models.Author.objects.all()
-    books = models.Book.objects.all()
+    books = models.Book.objects.all().order_by('id')
     genres = models.Genre.objects.all()
     form = forms.AddBook()
 
     if request.method == "POST":
         form = forms.AddBook(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("library") 
+            try:
+                with transaction.atomic():
+                    add_book_creation(form, request)
+                    return redirect("library") 
+            except Exception as e:
+                form.add_error(None, f"Error saving book: {str(e)}")
         else:
             return render(request, "library/library.html", 
                 {"form": form,

@@ -33,7 +33,7 @@ class BookManager(models.Manager):
         if query:
             books = books.filter(Q(title__icontains=query) | Q(author__name__icontains=query))
         if genre:
-            books = books.filter(genre__name__icontains=genre)
+            books = books.filter(genre__name=genre)
         if availability:
             if availability == "true":
                 books = books.filter(availability__gt=0)
@@ -59,49 +59,49 @@ class Book(models.Model):
         verbose_name_plural = "Books"
         db_table = "books"    
 
-class Reservation(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    handed = models.BooleanField(default=False)
-    overdued = models.BooleanField(default=False)
-    time = models.DateTimeField(auto_now_add=True)
+# class Reservation(models.Model):
+#     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     handed = models.BooleanField(default=False)
+#     overdued = models.BooleanField(default=False)
+#     time = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        verbose_name = "Reservation"
-        verbose_name_plural = "Reservations"
-        db_table = "reservations"
+#     class Meta:
+#         verbose_name = "Reservation"
+#         verbose_name_plural = "Reservations"
+#         db_table = "reservations"
 
-    @staticmethod
-    def create_reservation(book_id, user):
-        book = Book.objects.get(id = book_id)
+#     @staticmethod
+#     def create_reservation(book_id, user):
+#         book = Book.objects.get(id = book_id)
 
-        if book.availability <= 0:
-            raise ValueError("Book is not available for reservation.")
+#         if book.availability <= 0:
+#             raise ValueError("Book is not available for reservation.")
         
-        reservation = Reservation(book = book, user = user)
-        reservation.save()
+#         reservation = Reservation(book = book, user = user)
+#         reservation.save()
 
-        book.availability -= 1
-        book.save()
-        return reservation
+#         book.availability -= 1
+#         book.save()
+#         return reservation
 
-    @staticmethod
-    def hand_book(reservation_id):
+#     @staticmethod
+#     def hand_book(reservation_id):
         
-        reservation = Reservation.objects.get(id=reservation_id)
-        if reservation.handed:
-            raise ValueError("Book has already been handed.")
+#         reservation = Reservation.objects.get(id=reservation_id)
+#         if reservation.handed:
+#             raise ValueError("Book has already been handed.")
         
-        reservation.handed = True
-        reservation.save()
+#         reservation.handed = True
+#         reservation.save()
         
-    @staticmethod
-    def overdue(reservation_id):
-        reservation = Reservation.objects.get(id=reservation_id)
+#     @staticmethod
+#     def overdue(reservation_id):
+#         reservation = Reservation.objects.get(id=reservation_id)
 
-        if reservation.handed:
-            raise ValueError("Cannot mark handed book as overdue.")
+#         if reservation.handed:
+#             raise ValueError("Cannot mark handed book as overdue.")
         
-        reservation.book.availability += 1
-        reservation.overdued = True
-        reservation.book.save()
+#         reservation.book.availability += 1
+#         reservation.overdued = True
+#         reservation.book.save()

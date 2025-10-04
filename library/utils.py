@@ -58,3 +58,29 @@ def edit_book(request, book):
         
     book.full_clean()
     book.save()
+
+def add_book_creation(form, request):
+    author_name = form.cleaned_data['author'].strip()
+    genre_name = form.cleaned_data['genre'].strip()
+
+    # Handle Author
+    existing_authors = list(models.Author.objects.values_list('name', flat=True))
+    close_matches = get_close_matches(author_name, existing_authors, n=1, cutoff=0.8)
+    if close_matches:
+        author_obj = models.Author.objects.get(name=close_matches[0])
+    else:
+        author_obj = models.Author.objects.create(name=author_name)
+
+    # Handle Genre
+    existing_genres = list(models.Genre.objects.values_list('name', flat=True))
+    close_matches = get_close_matches(genre_name, existing_genres, n=1, cutoff=0.8)
+    if close_matches:
+        genre_obj = models.Genre.objects.get(name=close_matches[0])
+    else:
+        genre_obj = models.Genre.objects.create(name=genre_name)
+
+    book = form.save(commit=False)  
+    book.author = author_obj  
+    book.genre = genre_obj  
+    book.save()  
+    return book
