@@ -28,7 +28,11 @@ services:
       context: .
     container_name: django-app
     entrypoint: /docker-entrypoint.sh
-    command: gunicorn library_ms.wsgi:application --bind=0.0.0.0:8000 --workers=3 --timeout=120
+    command: gunicorn library_core.wsgi:application --bind=0.0.0.0:8000 --workers=3 --timeout=120
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
     env_file:
       - .env
     environment:
@@ -43,8 +47,24 @@ services:
     networks:
       - app-network
 
+  nginx:
+    image: nginx:1.29
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    depends_on:
+      - django
+    networks:
+      - app-network
+
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
 
 networks:
   app-network:
