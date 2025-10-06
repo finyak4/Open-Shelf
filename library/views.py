@@ -9,6 +9,31 @@ from django.db import transaction
 
 
 def library(request):
+    """
+    Handle the main library page with book listing and management.
+    
+    Supports both GET and POST requests:
+    - GET: Display filtered/paginated books with search and filter capabilities
+    - POST: Add new books to the library with form validation
+    
+    Features:
+    - Book search and filtering by query, genre, availability, and authors
+    - Add new books with automatic author/genre creation
+    - Paginated results with smart page navigation
+    - Error handling with user-friendly messages
+    
+    Args:
+        request: HttpRequest object, expected to contain:
+            GET parameters: query, genre, available, author (for filtering)
+            POST data: Book form data (for adding new books)
+    
+    Returns:
+        HttpResponse: Rendered library page with context including:
+            - Paginated and filtered books
+            - Add book form
+            - All authors and genres for filters
+            - Status messages for user feedback
+    """
     authors = models.Author.objects.all()
     books = models.Book.objects.all().order_by('id')
     genres = models.Genre.objects.all()
@@ -39,6 +64,39 @@ def library(request):
 
 
 def book_view(request, id):
+    """
+    Handle individual book detail page and updates.
+    
+    Supports multiple HTTP methods:
+    - GET: Display book details and edit form
+    - PUT: Update book information via AJAX/JSON
+    
+    Features:
+    - Book detail display with all metadata
+    - In-place editing via JSON API
+    - Automatic author/genre creation with fuzzy matching
+    - Full model validation before saving
+    
+    Args:
+        request: HttpRequest object
+        id: Primary key of the book to retrieve/update
+    
+    Returns:
+        HttpResponse: 
+            - GET: Rendered book detail page
+            - PUT: JSON response with success/error status
+    
+    JSON PUT Request Format:
+        {
+            "title": "New Title",
+            "author": "Author Name", 
+            "genre": "Genre Name",
+            "availability": 5,
+            "year": 2023,
+            "url": "http://example.com/cover.jpg",
+            "description": "Book description"
+        }
+    """
     book = get_object_or_404(models.Book, pk=id)
     genres = models.Genre.objects.all()
     if request.method == "GET":

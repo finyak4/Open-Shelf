@@ -28,6 +28,29 @@ class Author(models.Model):
         return self.name    
 
 class BookManager(models.Manager):
+    """
+        Filter books by various criteria with exact and partial matching.
+        
+        Provides a unified interface for searching and filtering the book catalog
+        with support for text search, genre filtering, availability status, 
+        and multiple author selection.
+        
+        Args:
+            query (str, optional): Search term to match in book titles or author names.
+                Uses case-insensitive partial matching.
+            genre (str, optional): Exact genre name to filter by. Case-sensitive.
+            availability (str, optional): Filter by availability status.
+                - "true": Books with availability > 0 (available)
+                - "false": Books with availability < 1 (unavailable)
+            authors (list, optional): List of author names to filter by.
+                Uses exact matching on author names.
+
+        Note:
+            - Genre filtering uses exact match (case-sensitive)
+            - Author filtering uses exact match on author names
+            - Query search uses case-insensitive partial matching
+            - All filters are combined with AND logic
+        """
     def filter_books(self, query=None, genre=None, availability=None, authors=None):
         books = self.all()
         if query:

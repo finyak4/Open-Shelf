@@ -6,6 +6,26 @@ from django.shortcuts import render
 from library import models
 
 def paginate(queryset, request, per_page=30):
+    """
+    Paginate a queryset with smart page range generation.
+    
+    Creates a paginated result with an optimized page range display that shows:
+    - First few pages when near start
+    - Last few pages when near end  
+    - Pages around current page when in middle
+    - Ellipsis (...) for skipped page ranges
+    
+    Args:
+        queryset: Django queryset to paginate
+        request: HttpRequest object for getting page parameter
+        per_page: Number of items per page (default: 30)
+    
+    Returns:
+        tuple: (page_objects, page_range, query_string)
+            - page_objects: Page object from Paginator
+            - page_range: List of page numbers with ellipsis for UI
+            - query_string: URL-encoded query parameters without 'page'
+    """
     paginator = Paginator(queryset, per_page)
     page_number = request.GET.get('page')
     page_books = paginator.get_page(page_number)
@@ -30,6 +50,24 @@ def paginate(queryset, request, per_page=30):
     return page_books, page_range, query_params.urlencode()
 
 def render_library_page(request, form, books, authors, genres, message=None, authors_selected=None):
+    """
+    Render the library page with paginated books and filter context.
+    
+    Prepares all necessary context data for the library template including
+    paginated books, filter forms, and optional status messages.
+    
+    Args:
+        request: HttpRequest object
+        form: Book Addition form instance
+        books: Queryset of books to display
+        authors: Queryset of all authors for filter
+        genres: Queryset of all genres for filter
+        message: Optional status message to display (e.g., success/error)
+        authors_selected: Optional list of selected author IDs for filter persistence
+    
+    Returns:
+        HttpResponse: Rendered library template with context
+    """
     page_books, page_range, query_params = paginate(books, request)
     context = {
         "form": form,
@@ -46,6 +84,12 @@ def render_library_page(request, form, books, authors, genres, message=None, aut
     return render(request, "library/library.html", context)
 
 def edit_book(request, book):
+    """
+    Update book details from JSON data with author/genre handling.
+
+    Handles creation of new authors and genres using fuzzy matching to prevent
+    duplicates. Validates data before saving.
+    """
     data = json.loads(request.body)
 
     book.title = data.get("title", book.title)
@@ -78,6 +122,30 @@ def edit_book(request, book):
     book.save()
 
 def add_book_creation(form, request):
+    """
+    Create a new book with author and genre handling.
+    
+    Processes a validated book form by creating or finding matching
+    author and genre objects before saving the book. Uses fuzzy
+    matching to prevent duplicate authors/genres.
+    
+    Args:
+        form: Validated AddBook form instance
+        request: HttpRequest for context
+    
+    Returns:
+        Book: The newly created book instance
+    
+    Process:
+        1. Extracts author and genre names from form data
+        2. Uses fuzzy matching to find existing authors/genres
+        3. Creates new authors/genres if no close match found
+        4. Assigns objects to book and saves
+    
+    Note:
+        Should be called within a database transaction to ensure
+        data consistency if used in a view with transaction.atomic()
+    """
     author_name = form.cleaned_data['author'].strip()
     genre_name = form.cleaned_data['genre'].strip()
 
