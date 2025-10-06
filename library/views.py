@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from library.utils import paginate, edit_book, add_book_creation
+from library.utils import paginate, edit_book, add_book_creation, render_library_page
 from django.http import JsonResponse
 from library import forms
 from library import models
@@ -24,12 +24,7 @@ def library(request):
             except Exception as e:
                 form.add_error(None, f"Error saving book: {str(e)}")
         else:
-            return render(request, "library/library.html", 
-                {"form": form,
-                "books": books,
-                "authors": authors,
-                "genres": genres,
-                "message": "Form is not valid. Book was not added."})
+            return render_library_page(request, form, books, authors, genres, message="Form is not valid. Book was not added.")
         
     query = request.GET.get('query')
     genre = request.GET.get('genre')  
@@ -38,17 +33,9 @@ def library(request):
     try:
         books = models.Book.objects.filter_books(query=query, genre=genre, availability=availability, authors=author)
     except Exception as e:
-        return render(request, "library/library.html", {"form": form, "books": books, "authors": authors, "message": str(e)})
+        return render_library_page(request, form, books, authors, genres, message=str(e))
 
-    page_books, page_range, query_params = paginate(books, request)
-    return render(request, "library/library.html",
-        {"form": form,
-        "books": page_books,
-        "authors": authors,
-        "genres": list(genres),
-        "authors_selected": author if author else [],
-        "page_range": page_range,
-        "query_params": query_params,})
+    return render_library_page(request, form, books, authors, genres, authors_selected=author if author else []) 
 
 
 def book_view(request, id):

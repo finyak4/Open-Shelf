@@ -127,3 +127,9 @@ class LibraryTests(TestCase):
         self.assertNotEqual(self.book1.publication_year, 99)
         self.assertNotEqual(self.book1.genre.name, "Another Genre")
         self.assertNotEqual(self.book1.cover_image, "invalid_url")    
+
+    def test_no_books_found(self):
+        author_without_books = models.Author.objects.create(name="No Books Author")
+        response = self.client.get(f'/?author=No+Books+Author')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No books found.")

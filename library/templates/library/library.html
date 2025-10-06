@@ -136,17 +136,30 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="pagination">
-                {% if books.has_previous %}<a href="?page={{ books.previous_page_number }}&{{ query_params }}">&laquo;</a>{% endif %}
-                {% for num in page_range %}
-                    {% if books.number == num %}
-                        <a href="?page={{ num }}&{{ query_params }}" class="active">{{ num }}</a>
-                    {% else %}
-                        <a href="?page={{ num }}&{{ query_params }}">{{ num }}</a>
-                    {% endif %}
-                {% endfor %}
-                {% if books.has_next %}<a href="?page={{ books.next_page_number }}&{{ query_params }}">&raquo;</a>{% endif %}
-            </div>
+            {% if books %}
+                {% if page_range > 1 %}
+                    <div class="pagination">
+                        {% if books.has_previous %}<a href="?page={{ books.previous_page_number }}&{{ query_params }}">&laquo;</a>{% endif %}
+                        {% for num in page_range %}
+                            {% if books.number == num %}
+                                <a href="?page={{ num }}&{{ query_params }}" class="active">{{ num }}</a>
+                            {% else %}
+                                <a href="?page={{ num }}&{{ query_params }}">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if books.has_next %}<a href="?page={{ books.next_page_number }}&{{ query_params }}">&raquo;</a>{% endif %}
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="no-books-found-div">
+                    <img src="{% static 'library/img/no-data.svg' %}"
+                         alt="Empty Pages"
+                         width="400px"
+                         height="400px"
+                         class="no-books-found-svg">
+                    <p class="no-books-found-text">No books found.</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock body %}

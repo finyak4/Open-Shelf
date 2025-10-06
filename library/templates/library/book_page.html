@@ -95,8 +95,8 @@
                 <p class="book-info-author">{{ book.author.name }}</p>
                 <p class="author-description">{{ book.author.description }}</p>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 {% endblock body %}
 {% block script %}
     <script src="{% static 'library/book_page.js' %}"></script>

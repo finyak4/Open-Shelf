@@ -224,7 +224,6 @@ main{
 
 #filter-form button, .btn-clean-filters{
   padding: 8px 12px;
-  font-size: clamp(0.8rem, 2vw, 1.2rem);
   font-size: 12px;
   border: 1px solid gray;
   border-radius: 4px;
@@ -271,6 +270,26 @@ main{
 }
 
 
+/* ------------------------------------------------------ NO BOOKS FOUND */
+.no-books-found-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-books-found-svg{
+  width: 400px;
+  height: 400px;
+  opacity: 0.9;
+}
+
+.no-books-found-text{
+  margin-top: 25px;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  font-family:'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
 /* --------------------------  MEDIA */
 
 
@@ -292,6 +311,11 @@ main{
   .book-item img{
   width: 130px;
   height: 190px;
+  }
+
+  .no-books-found-svg{
+    height: 300px;
+    width: 300px;
   }
 }
 

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    {% comment %} <link rel="stylesheet" href="{% static 'library/library.css' %}"> {% endcomment %}
+{% endblock head %}
+{% block body %}
+    <div class="not-found-page-div">
+        <img src="{% static 'library/img/404.svg' %}"
+             alt="404 Not Found"
+             height="500px"
+             width="600px"
+             class="not-found-page-icon">
+        <p class="not-found-page-text">The page you are looking for does not exist or has been moved.</p>
+    </div>
+{% endblock body %}

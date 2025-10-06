@@ -142,6 +142,7 @@ input[type=number]::-webkit-inner-spin-button {
   display: flex;
   flex-direction: row;
   margin-top: 5%;
+  margin-bottom: 15px;
 }
 
 .book-info-title{
@@ -195,7 +196,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 
 .author-description{
-  margin-top: 10px;
+  margin-top: 5px;
   font-size: clamp(0.9rem, 2vw, 1.0rem); 
   font-family: "Inter", "Segoe UI", "Roboto", sans-serif;
   font-weight: 400;

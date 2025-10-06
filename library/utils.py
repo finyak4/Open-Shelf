@@ -1,6 +1,8 @@
 from django.core.paginator import Paginator
 import json
 from difflib import get_close_matches
+
+from django.shortcuts import render
 from library import models
 
 def paginate(queryset, request, per_page=30):
@@ -26,6 +28,22 @@ def paginate(queryset, request, per_page=30):
         else:
             page_range = [1] + list(range(current_page - 3, current_page + 3)) + ["..."] + [total_pages]
     return page_books, page_range, query_params.urlencode()
+
+def render_library_page(request, form, books, authors, genres, message=None, authors_selected=None):
+    page_books, page_range, query_params = paginate(books, request)
+    context = {
+        "form": form,
+        "books": page_books,
+        "authors": authors,
+        "genres": list(genres),
+        "page_range": page_range,
+        "query_params": query_params,
+    }
+    if message:
+        context["message"] = message
+    if authors_selected:
+        context["authors_selected"] = authors_selected
+    return render(request, "library/library.html", context)
 
 def edit_book(request, book):
     data = json.loads(request.body)
