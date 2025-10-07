@@ -1,21 +1,11 @@
-.form-title{
-  margin: 0px;
-}
-
-.form-container{
-    gap: 5px;
-}
-
-
 .container-form-item input, .container-form-item select{
     border: 1px solid #343333;
 }
 
-.container-form-item input, .container-form-item select {
-  width: 229px;
+form.add-book-form div.container-form-item .errorlist > li {
+  max-width: 400px !important;
+  width: 400px !important; 
 }
-
-
 
 
 .error-message{

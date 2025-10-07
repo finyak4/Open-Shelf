@@ -15,10 +15,11 @@ class RegisterForm(UserCreationForm):
             field.widget.attrs['placeholder'] = ' '    
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'autofocus': 'autofocus'}))
-    password = forms.PasswordInput()
+    class Meta:
+        model = models.User
+        fields = ["username", "password"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
-            field.widget.attrs['placeholder'] = ' '   
+            field.widget.attrs['placeholder'] = ' '
