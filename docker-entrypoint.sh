@@ -14,9 +14,11 @@ set -e
 
 wait_for_db() {
   echo "Waiting for database to become available..."
-  DB_HOST=$(echo "$DATABASE_URL" | sed -E 's/^.*@([^:/]+):[0-9]+\/.*$/\1/')
-  DB_PORT=$(echo "$DATABASE_URL" | sed -E 's/^.*:([0-9]+)\/.*$/\1/')
-
+  echo "DATABASE_URL is: $DATABASE_URL"
+  DB_HOST=$(python3 -c "import os; from urllib.parse import urlparse; u=urlparse(os.environ['DATABASE_URL']); print(u.hostname)")
+  DB_PORT=$(python3 -c "import os; from urllib.parse import urlparse; u=urlparse(os.environ['DATABASE_URL']); print(u.port)")
+  echo "DB_HOST is: $DB_HOST"
+  echo "DB_PORT is: $DB_PORT"
   while ! pg_isready -h "$DB_HOST" -p "$DB_PORT" > /dev/null 2>&1; do
     sleep 1
   done
