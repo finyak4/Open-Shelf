@@ -12,12 +12,13 @@ jobs:
     env:
         DJANGO_SETTINGS_MODULE: library_core.settings
         SECRET_KEY: supersecretkey
-        DEBUG: 0
+        DEBUG: 1
         POSTGRES_DB: test_db
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
-        POSTGRES_HOST: localhost
+        POSTGRES_HOST: postgres
         POSTGRES_PORT: 5432
+        ALLOWED_HOSTS: localhost,testserver
     services:
       postgres:
         image: postgres:15
