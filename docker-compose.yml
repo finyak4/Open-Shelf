@@ -1,29 +1,27 @@
 version: '3.8'
 
 services:
-
-  # FOR LOCAL DEVELOPMENT
-  # postgres:
-  #   image: postgres:14
-  #   container_name: postgres
-  #   networks:
-  #     - app-network
-  #   env_file:
-  #     - .env  
-  #   environment:
-  #     - POSTGRES_DB
-  #     - POSTGRES_USER
-  #     - POSTGRES_PASSWORD
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-  #     interval: 30s   
-  #     timeout: 5s
-  #     retries: 5
-  #     start_period: 10s
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    networks:
+      - app-network
+    env_file:
+      - .env  
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 30s   
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   django:
     build:
@@ -37,14 +35,14 @@ services:
       - media_volume:/app/mediafiles
     env_file:
       - .env
-    # environment:
-    #   - POSTGRES_HOST
-    #   - POSTGRES_PORT   
+    environment:
+      - POSTGRES_HOST
+      - POSTGRES_PORT   
     ports:
       - "8000:8000"
-    # depends_on:
-    #   postgres:
-    #     condition: service_healthy
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - app-network
