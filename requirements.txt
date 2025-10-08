@@ -24,4 +24,4 @@ tqdm==4.67.1
 typing_extensions==4.14.1
 userpath==1.9.2
 gunicorn==21.2.0
-
+dj_database_url==0.5.0
