@@ -16,7 +16,7 @@ jobs:
         POSTGRES_DB: test_db
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
-        POSTGRES_HOST: postgres
+        POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
         ALLOWED_HOSTS: localhost,testserver
     services:
