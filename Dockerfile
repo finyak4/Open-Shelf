@@ -31,4 +31,4 @@ RUN chmod +x /docker-entrypoint.sh
 # Entrypoint and command
 ENTRYPOINT ["/docker-entrypoint.sh"]
 # CMD ["gunicorn", "library_core.wsgi:application", "--bind=0.0.0.0:8000", "--workers=3", "--timeout=120"]  LOCAL
-CMD ["gunicorn", "library_core.wsgi:application", "--bind=0.0.0.0:${PORT}", "--workers=3", "--timeout=120"]  # RENDER
+CMD gunicorn library_core.wsgi:application --bind=0.0.0.0:$PORT --workers=3 --timeout=120 # PROD for Render.com
