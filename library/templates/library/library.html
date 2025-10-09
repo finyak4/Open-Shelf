@@ -137,7 +137,7 @@
                 {% endfor %}
             </div>
             {% if books %}
-                {% if page_range > 1 %}
+                {% if page_range|length > 1 %}
                     <div class="pagination">
                         {% if books.has_previous %}<a href="?page={{ books.previous_page_number }}&{{ query_params }}">&laquo;</a>{% endif %}
                         {% for num in page_range %}

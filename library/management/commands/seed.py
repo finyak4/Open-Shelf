@@ -8,11 +8,25 @@ class Command(BaseCommand):
         models.Genre.objects.all().delete()
         models.Book.objects.all().delete()
         models.Author.objects.all().delete()
+        models.User.objects.all().delete()
 
+        self.create_genres()
+        self.create_authors()
+        self.create_books()
+        self.create_users()
+
+        self.stdout.write(self.style.SUCCESS('Database seeded successfully.'))
+
+    def create_genres(self):
         genres = ['Science Fiction', 'Fantasy', 'Mystery', 'Romance', 'Horror']
         for genre_name in genres:
             models.Genre.objects.create(name=genre_name)
 
+    def create_users(self):
+        models.User.objects.create_superuser(email="admin@example.com", password="adminpass", first_name="Admin", last_name="User")
+        models.User.objects.create_user(email="user@example.com", password="userpass", first_name="Regular", last_name="User")
+
+    def create_authors(self):
         authors = ['Isaac Asimov', 'J.K. Rowling', 'Agatha Christie', 'Jane Austen', 'Stephen King']
         descriptions = [
             "Prolific science fiction author known for the Foundation series. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -22,8 +36,9 @@ class Command(BaseCommand):
             "Master of horror fiction, author of The Shining and IT. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         ]
         for author_name, desc in zip(authors, descriptions):
-            models.Author.objects.create(name=author_name, description=desc)
+            models.Author.objects.create(name=author_name, description=desc)    
 
+    def create_books(self):
         for i in range(1, 6):
             models.Book.objects.create(
                 title=f"Foundation Vol. {i}",
@@ -122,6 +137,4 @@ class Command(BaseCommand):
                 publication_year=1977,
                 genre=models.Genre.objects.get(name="Horror"),
                 cover_image="https://m.media-amazon.com/images/M/MV5BNmM5ZThhY2ItOGRjOS00NzZiLWEwYTItNDgyMjFkOTgxMmRiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
-            )
-
-        self.stdout.write(self.style.SUCCESS('Database seeded successfully.'))
+            )        

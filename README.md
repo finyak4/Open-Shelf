@@ -2,6 +2,26 @@
 
 Open-Shelf is a modern web-based library management system built with Django. It allows staff to manage books, authors, genres, reservations, and borrowings. The system supports user authentication and provides an intuitive interface for searching and managing library resources.
 
+## Live Demo
+
+Try it out at [Open-Shelf](https://open-shelf.onrender.com/)
+
+**⚠️ Important Notes:**
+- **Using Render's free tier** - the app may take **20-50 seconds** to wake up if inactive
+- **Please be patient** on first load - Render spins down inactive apps to conserve resources
+
+## 🔐 Demo Accounts
+
+### 👤 Regular User Account
+- **Email:** `user@example.com`
+- **Password:** `userpass`
+- **Features:** Browse books, filter, view details
+
+### 👑 Admin Account  
+- **Email:** `admin@example.com`
+- **Password:** `adminpass`
+- **Features:** Full admin access, add/edit books
+
 ## Features
 
 - **User Authentication**

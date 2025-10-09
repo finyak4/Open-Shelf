@@ -17,7 +17,7 @@ wait_for_db() {
 
   DB_HOST=$(python3 -c "import os; from urllib.parse import urlparse; u=urlparse(os.environ['DATABASE_URL']); print(u.hostname)")
   DB_PORT=$(python3 -c "import os; from urllib.parse import urlparse; u=urlparse(os.environ['DATABASE_URL']); print(u.port or 5432)")
-  
+
   while ! pg_isready -h "$DB_HOST" -p "$DB_PORT" > /dev/null 2>&1; do
     sleep 1
   done
@@ -33,5 +33,8 @@ if echo "$@" | grep -q "gunicorn"; then
     python manage.py migrate
     echo "Starting Gunicorn..."
 fi
+
+echo "Seeding database..."
+    python manage.py seed
 
 exec "$@"

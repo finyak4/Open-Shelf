@@ -5,7 +5,7 @@
 {% endblock head %}
 {% block body %}
     <h2 class="form-title">Register</h2>
-    <form method="post" class="form-container">
+    <form method="post" class="form-container register-form">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="container-form-item">

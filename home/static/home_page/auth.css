@@ -7,3 +7,18 @@
     color: black;
     text-decoration: underline;
 }
+
+form.form-container button {
+    -webkit-text-fill-color: black;
+    color: black;
+}
+
+@media (max-width: 686px){  
+  .login-form button, .register-form button{
+    margin-top: 20px;
+  }
+
+  form.form-container button {
+    padding: 5px 10px;
+  }
+}
